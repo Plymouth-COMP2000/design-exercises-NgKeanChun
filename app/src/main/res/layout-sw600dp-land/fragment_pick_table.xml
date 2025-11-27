@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_light_green"
+    tools:context=".ui.reservations.PickTableFragment">
+
+    <!-- Header: Increased text size for better readability on a tablet -->
+    <ImageButton
+        android:id="@+id/BackButton"
+        android:layout_width="76dp"
+        android:layout_height="69dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:padding="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pickTableTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Table"
+        android:textColor="@color/text_color_primary"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/BackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/BackButton" />
+
+    <!-- Table Layout Area: This container correctly constrains the tables within it -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/table_map_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@id/reserveTableButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BackButton">
+
+
+        <!-- Table 1 (Circular, Available): Changed vertical bias to center it better. -->
+        <TextView
+            android:id="@+id/table_1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="108dp"
+            android:background="@drawable/table_background_circle_available"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.528" />
+
+
+        <!-- Table 4 (Rect, Available): Constrained to top and start with margins to keep it inside. -->
+        <TextView
+            android:id="@+id/table_4"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="104dp"
+            android:background="@drawable/table_background_available"
+            android:gravity="center"
+            android:text="4"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/table_2"
+            app:layout_constraintHorizontal_bias="0.205"
+            app:layout_constraintStart_toEndOf="@id/table_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Table 7 (Rect, Available): Constrained to bottom and start with margins. -->
+        <TextView
+            android:id="@+id/table_7"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/table_background_available"
+            android:gravity="center"
+            android:text="7"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/table_6"
+            app:layout_constraintHorizontal_bias="0.204"
+            app:layout_constraintStart_toEndOf="@id/table_1" />
+
+
+        <!-- Table 2 (Rect, Occupied): Constrained to top and end with margins. -->
+        <TextView
+            android:id="@+id/table_2"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="104dp"
+            android:layout_marginEnd="312dp"
+            android:background="@drawable/table_background_occupied"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="#676765"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Table 6 (Rect, Available): Constrained to bottom and end with margins. -->
+        <TextView
+            android:id="@+id/table_6"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="312dp"
+            android:layout_marginBottom="52dp"
+            android:background="@drawable/table_background_available"
+            android:gravity="center"
+            android:text="6"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <!-- Table 3 (Rect, Occupied): Centered within the parent container. -->
+        <TextView
+            android:id="@+id/table_3"
+            android:layout_width="80dp"
+            android:layout_height="180dp"
+            android:background="@drawable/table_background_occupied"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="#676765"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Table 5 (Circular, Selected): Removed style and constrained to bottom and end with margins to stay in view. -->
+        <TextView
+            android:id="@+id/table_5"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="132dp"
+            android:layout_marginBottom="240dp"
+            android:background="@drawable/table_background_circle_selected"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Reserve Button: Now constrained to the bottom of the parent layout. -->
+    <Button
+        android:id="@+id/reserveTableButton"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/proceed_button_rounded"
+        android:text="Reserve Table"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:backgroundTint="@color/button_dark_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

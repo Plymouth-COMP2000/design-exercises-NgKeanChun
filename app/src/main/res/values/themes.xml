@@ -1,0 +1,75 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SE2_Restaurant_Management_Application" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.SE2_Restaurant_Management_Application" parent="Base.Theme.SE2_Restaurant_Management_Application" />
+
+    <style name="PinEditText">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/pin_box_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="StatusDetailText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Base Style for all tables -->
+    <style name="TableTextView">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Style for Circular Tables -->
+    <style name="TableTextView.Circle" parent="TableTextView">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+    </style>
+
+    <!-- Style for Horizontal Rectangular Tables -->
+    <style name="TableTextView.Horizontal" parent="TableTextView">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+
+    <!-- Style for Vertical Rectangular Tables -->
+    <style name="TableTextView.Vertical" parent="TableTextView">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">100dp</item>
+    </style>
+
+
+
+
+    <style name="FormLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+    <style name="FormEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/pin_box_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

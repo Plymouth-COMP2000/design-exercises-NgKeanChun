@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_light_green"
+    tools:context=".ui.reservations.PickTableFragment">
+
+    <!-- Header -->
+    <ImageButton
+        android:id="@+id/BackButton"
+        android:layout_width="80dp"
+        android:layout_height="75dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:padding="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pickTableTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Table"
+        android:textColor="@color/text_color_primary"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/BackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/BackButton" />
+
+    <!-- Table Layout Area -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/table_map_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/BackButton"
+        app:layout_constraintBottom_toTopOf="@id/reserveTableButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <!-- Table 1 (Circular, Available) -->
+        <TextView
+            android:id="@+id/table_1"
+            style="@style/TableTextView.Circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="88dp"
+            android:background="@drawable/table_background_circle_available"
+            android:text="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Table 4 (Rect, Available) -->
+        <TextView
+            android:id="@+id/table_4"
+            style="@style/TableTextView.Vertical"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:background="@drawable/table_background_available"
+            android:text="4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.199"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.285" />
+
+        <!-- Table 7 (Rect, Available) -->
+        <TextView
+            android:id="@+id/table_7"
+            style="@style/TableTextView.Vertical"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:background="@drawable/table_background_available"
+            android:text="7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <!-- Table 2 (Rect, Occupied) -->
+        <TextView
+            android:id="@+id/table_2"
+            style="@style/TableTextView.Vertical"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:background="@drawable/table_background_occupied"
+            android:text="2"
+            android:textColor="#676765"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.274" />
+
+        <!-- Table 6 (Rect, Available) -->
+        <TextView
+            android:id="@+id/table_6"
+            style="@style/TableTextView.Vertical"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:background="@drawable/table_background_available"
+            android:text="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <!-- Table 3 (Rect, Occupied) -->
+        <TextView
+            android:id="@+id/table_3"
+            style="@style/TableTextView.Horizontal"
+            android:layout_width="240dp"
+            android:layout_height="90dp"
+            android:background="@drawable/table_background_occupied"
+            android:text="3"
+            android:textColor="#676765"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Table 5 (Circular, Selected) -->
+        <TextView
+            android:id="@+id/table_5"
+            style="@style/TableTextView.Circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/table_background_circle_selected"
+            android:text="5"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.949" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Reserve Button -->
+    <Button
+        android:id="@+id/reserveTableButton"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/proceed_button_rounded"
+        android:text="Reserve Table"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@color/button_dark_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible" /> <!-- Visibility is visible because a table is selected -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
