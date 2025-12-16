@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="button_red">#FF0000</color>
+    <color name="button_purple">#A45EE9</color>
+    <color name="app_background_light_green">#F2F5EE</color>
+    <color name="button_dark_green">#6B7D5D</color>
+    <color name="button_pale_green">#b4c4ab</color>
+    <color name="button_light_green">#38cb82</color>
+    <color name="text_color_primary">#333333</color>
+    <color name="text_color_secondary">#74B72E</color>
+    <color name="default_profile_tint">#BDBDBD</color>
+
+
+
+    <!-- Colors for reservation tabs -->
+    <color name="status_pending_bg">#FFC107</color> <!-- Yellow -->
+    <color name="status_confirmed_bg">#4CAF50</color> <!-- Green -->
+    <color name="status_cancelled_bg">#F44336</color> <!-- Red -->
+    <color name="status_completed_bg">#607D8B</color> <!-- Blue Grey -->
+    <color name="status_text_color">#FFFFFFFF</color> <!-- White -->
+
+    <!-- Color for notifications tab -->
+    <color name="notification_icon_color">#FFC107</color>
+    <color name="notification_main_text">#343434</color>
+    <color name="notification_desc_text">#464646</color>
+
+    <!-- Color for Headers -->
+    <color name="header_text_color">#575757</color>
+</resources>

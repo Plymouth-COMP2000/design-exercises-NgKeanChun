@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+
+        android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="true"
+        android:usesCleartextTraffic="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SE2_Restaurant_Management_Application">
+        <!-- 1. starting point of the app -->
+        <activity
+            android:name=".ui.auth.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 2. Declare LoginActivity -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
+        <!-- 3. Declare SignupActivity -->
+        <activity
+            android:name=".ui.auth.SignupActivity"
+            android:exported="false" />
+        <!-- 4. Declare MainActivity -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false" />
+        <!-- 5. Declare ForgetPasswordActivity -->
+        <activity
+            android:name=".ui.auth.ForgetPasswordActivity"
+            android:exported="false" />
+
+        <!-- 6. Declare NewPasswordActivity -->
+        <activity
+            android:name=".ui.auth.NewPasswordActivity"
+            android:exported="false" />
+
+</application>
+
+</manifest>

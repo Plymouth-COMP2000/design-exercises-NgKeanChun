@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/staff_nav_graph"
+    app:startDestination="@id/navigation_menu">
+
+    <!-- Menu Fragments -->
+    <fragment
+        android:id="@+id/navigation_menu"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuFragment"
+        android:label="Staff Menu"
+        tools:layout="@layout/fragment_staff_menu">
+        <action
+            android:id="@+id/action_staff_menu_to_staff_detail"
+            app:destination="@id/navigation_staff_menu_detail" />
+        <!-- FIX: This now points to the new staff notification fragment -->
+        <action
+            android:id="@+id/action_global_to_notifications"
+            app:destination="@id/navigation_staff_notifications" />
+        <action
+            android:id="@+id/action_staff_menu_to_add_item"
+            app:destination="@id/navigation_staff_menu_edit" />
+    </fragment>
+
+    <!-- ... other staff fragments ... -->
+    <fragment
+        android:id="@+id/navigation_reservations"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffReservationsFragment"
+        android:label="Reservations"
+        tools:layout="@layout/fragment_staff_reservation">
+        <action
+            android:id="@+id/action_staff_reservations_to_staff_status"
+            app:destination="@id/navigation_staff_reservation_status" />
+        <!-- FIX: This now points to the new staff notification fragment -->
+        <action
+            android:id="@+id/action_staff_reservations_to_notifications"
+            app:destination="@id/navigation_staff_notifications" />
+    </fragment>
+
+    <!-- Account Fragment -->
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffAccountFragment"
+        android:label="Account"
+        tools:layout="@layout/fragment_staff_account">
+        <!-- FIX: This now points to the new staff notification fragment -->
+        <action
+            android:id="@+id/action_global_to_notifications"
+            app:destination="@id/navigation_staff_notifications" />
+    </fragment>
+
+    <!-- FIX: NEW Staff Notification Destination -->
+    <fragment
+        android:id="@+id/navigation_staff_notifications"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffNotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notification">
+
+        <action
+            android:id="@+id/action_staff_notifications_to_staff_reservation_status"
+            app:destination="@id/navigation_staff_reservation_status" />
+    </fragment>
+
+    <!-- Other staff fragments like detail, edit, status, etc. remain the same -->
+    <fragment
+        android:id="@+id/navigation_staff_menu_detail"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuDetailFragment"
+        android:label="Staff Menu Detail"
+        tools:layout="@layout/fragment_staff_menu_detail" >
+        <action
+            android:id="@+id/action_staff_detail_to_edit"
+            app:destination="@id/navigation_staff_menu_edit" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_staff_menu_edit"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuEditFragment"
+        android:label="Edit Menu Item"
+        tools:layout="@layout/fragment_staff_menu_edit" >
+        <action
+            android:id="@+id/action_edit_to_staff_menu"
+            app:destination="@id/navigation_menu"
+            app:popUpTo="@id/navigation_menu"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_staff_reservation_status"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffReservationStatusFragment"
+        android:label="Reservation Details"
+        tools:layout="@layout/fragment_staff_reservation_status">
+        <action
+            android:id="@+id/action_staff_reservation_detail_to_pick_table"
+            app:destination="@id/navigation_pick_table" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_pick_table"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.PickTableFragment"
+        android:label="Choose Table"
+        tools:layout="@layout/fragment_pick_table" />
+
+</navigation>
