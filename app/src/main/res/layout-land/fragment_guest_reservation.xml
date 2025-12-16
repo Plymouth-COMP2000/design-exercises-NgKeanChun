@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_light_green"
+    tools:context=".ui.main.fragments.ReservationsFragment">
+
+    <!-- Header Section -->
+    <ImageButton
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Logout"
+        android:padding="16dp"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reservationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reservations"
+        android:textColor="@color/text_color_primary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/logoutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logoutButton" />
+
+    <ImageButton
+        android:id="@+id/notificationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/notification_icon_color"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Notifications"
+        android:padding="16dp"
+        android:src="@drawable/ic_notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Tab Layout for Upcoming/History -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:tabIndicatorColor="@color/button_dark_green"
+        app:tabSelectedTextColor="@color/button_dark_green"
+        app:tabTextColor="@color/text_color_secondary"
+        app:layout_constraintTop_toBottomOf="@id/logoutButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upcoming" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Reservations List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reservationsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toTopOf="@id/bookTableButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/list_item_reservation" />
+
+    <!-- Book New Table Button -->
+    <Button
+        android:id="@+id/bookTableButton"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/proceed_button_rounded"
+        android:text="Book New Table"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@color/button_dark_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

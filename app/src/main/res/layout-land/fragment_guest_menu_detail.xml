@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background_light_green"
+    android:padding="24dp"
+    tools:context=".ui.main.fragments.MenuDetailFragment">
+
+    <!-- Guideline for vertical split -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <!-- Image Card (Left Column - FIXED) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imageCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#E0E0E0"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/detailFoodImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:contentDescription="Image of the food item" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Food Name TextView (Right Column - Fixed at top) -->
+    <TextView
+        android:id="@+id/detailFoodNameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/text_color_primary"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Delicious Food Name" />
+
+    <!-- Price TextView (Right Column - Fixed at top) -->
+    <TextView
+        android:id="@+id/detailFoodPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/notification_desc_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/detailFoodNameTextView"
+        app:layout_constraintTop_toBottomOf="@id/detailFoodNameTextView"
+        tools:text="RM12.99" />
+
+    <!-- Scrollable content for the right column -->
+    <ScrollView
+        android:id="@+id/right_column_scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@id/detailFoodPriceTextView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Description Title -->
+            <TextView
+                android:id="@+id/descriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Description"
+                android:textColor="@color/text_color_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Description TextView (FIXED) -->
+            <TextView
+                android:id="@+id/detailDescriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/pin_box_background"
+                android:lineSpacingExtra="6dp"
+                android:padding="16dp"
+                android:textColor="@color/text_color_primary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTitle"
+                tools:text="This is a long description of the food item, detailing all of its ingredients and how it is prepared." />
+
+            <!-- Category Title -->
+            <TextView
+                android:id="@+id/categoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Category"
+                android:textColor="@color/text_color_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailDescriptionTextView" />
+
+            <!-- Category Chip -->
+            <TextView
+                android:id="@+id/categoryChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/chip_background"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="Appetizers"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
+
+            <!-- Back Button (FIXED) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/BackButton"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="32dp"
+                android:text="Back To Menu"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="@color/button_dark_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categoryChip"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

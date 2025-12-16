@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guest_nav_graph"
+    app:startDestination="@id/navigation_menu">
+
+    <!-- FIX 1: Define a single, truly global action to the status screen -->
+    <action
+        android:id="@+id/action_global_to_reservation_status"
+        app:destination="@id/reservationStatusFragment" />
+
+    <!-- Destination for the "Menu" tab -->
+    <fragment
+        android:id="@+id/navigation_menu"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.MenuFragment"
+        android:label="Menu"
+        tools:layout="@layout/fragment_guest_menu">
+        <action
+            android:id="@+id/action_menu_to_menu_detail"
+            app:destination="@id/navigation_menu_detail" />
+        <action
+            android:id="@+id/action_global_to_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_menu_detail"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.MenuDetailFragment"
+        android:label="Menu Details"
+        tools:layout="@layout/fragment_guest_menu_detail" />
+
+    <!-- Destination for the "Reservations" tab -->
+    <fragment
+        android:id="@+id/navigation_reservations"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.ReservationsFragment"
+        android:label="Reservations"
+        tools:layout="@layout/fragment_guest_reservation">
+        <action
+            android:id="@+id/action_reservations_to_pickTable"
+            app:destination="@id/pickTableFragment" />
+        <!-- The old action_reservations_to_status is removed from here -->
+        <action
+            android:id="@+id/action_reservations_to_bookingDetails"
+            app:destination="@id/bookingDetailsFragment" />
+        <action
+            android:id="@+id/action_guest_reservations_to_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+
+    <!-- Destination for the "Pick Table" screen -->
+    <fragment
+        android:id="@+id/pickTableFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.PickTableFragment"
+        android:label="Choose Table"
+        tools:layout="@layout/fragment_pick_table">
+        <action
+            android:id="@+id/action_pickTable_to_bookingDetails"
+            app:destination="@id/bookingDetailsFragment" />
+    </fragment>
+
+    <!-- Destination for the booking details screen -->
+    <fragment
+        android:id="@+id/bookingDetailsFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.BookingDetailsFragment"
+        android:label="Booking Details"
+        tools:layout="@layout/fragment_guest_booking_detail">
+        <action
+            android:id="@+id/action_bookingDetails_to_pickTable"
+            app:destination="@id/pickTableFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reservationStatusFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.ReservationStatusFragment"
+        android:label="Reservation Status"
+        tools:layout="@layout/fragment_guest_reservation_status">
+        <action
+            android:id="@+id/action_status_to_pickTable"
+            app:destination="@id/pickTableFragment" />
+        <action
+            android:id="@+id/action_status_to_bookingDetails"
+            app:destination="@id/bookingDetailsFragment" />
+    </fragment>
+
+    <!-- Destination for the "Account" tab -->
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.AccountFragment"
+        android:label="Account"
+        tools:layout="@layout/fragment_guest_account">
+        <action
+            android:id="@+id/action_global_to_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+
+    <!-- "Notification" Destination -->
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestNotificationFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_guest_notifications_to_reservation_status"
+            app:destination="@id/reservationStatusFragment" />
+    </fragment>
+
+</navigation>
