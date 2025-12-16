@@ -1,43 +1,31 @@
 package com.example.se2_restaurant_management_application.data.models;
 
-public class Reservation {
-
-    private int id;
+public class Reservation {private int id;
     private String status;
     private String dateTime;
     private int numberOfGuests;
     private int tableNumber;
-    private int userId; // <-- ADD THIS FIELD
+    private int userId;
 
-    // UPDATE THIS CONSTRUCTOR
+    // Constructors
     public Reservation(int id, String status, String dateTime, int numberOfGuests, int tableNumber, int userId) {
         this.id = id;
         this.status = status;
         this.dateTime = dateTime;
         this.numberOfGuests = numberOfGuests;
         this.tableNumber = tableNumber;
-        this.userId = userId; // <-- INITIALIZE IT
+        this.userId = userId;
     }
 
-    // UPDATE THIS CONSTRUCTOR
     public Reservation(String status, String dateTime, int numberOfGuests, int tableNumber, int userId) {
         this.status = status;
         this.dateTime = dateTime;
         this.numberOfGuests = numberOfGuests;
         this.tableNumber = tableNumber;
-        this.userId = userId; // <-- INITIALIZE IT
+        this.userId = userId;
     }
 
     // --- Getters and Setters ---
-
-    // ADD GETTER AND SETTER FOR USER ID
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public int getId() {
         return id;
@@ -77,5 +65,13 @@ public class Reservation {
 
     public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
