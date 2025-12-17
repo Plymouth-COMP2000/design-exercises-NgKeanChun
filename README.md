@@ -2,7 +2,7 @@
 
 Student ID: BSSE2506036
 
-This is a comprehensive mobile application for Android, designed to streamline restaurant operations for both guests and staff. The app provides a dual-interface system, managed by a single codebase, that adapts based on the user's role (Guest or Staff).
+This is a comprehensive mobile application for Android, designed to streamline restaurant operations for both guests and staff. The app provides a dual-interface system, managed by a single codebase that adapts based on the user's role (Guest or Staff).
 
 ## Key Features
 
