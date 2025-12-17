@@ -60,5 +60,5 @@ This project is built using modern Android development practices and follows a r
     *   Select **File > Open** and navigate to the root project folder.
 3.  **Gradle Sync:** Wait for Android Studio to complete the Gradle sync. This will download all the necessary project dependencies.
 4.  **Choose a Device:** Select a virtual device (Emulator) or connect a physical Android device (with USB Debugging enabled).
-5.  **Run:** Click the green 'Run' (▶️) button in the top toolbar.
+5.  **Run:** Click the green 'Run' button in the top toolbar.
 
