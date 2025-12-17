@@ -7,10 +7,10 @@ public class Reservation {
     private String dateTime;
     private int numberOfGuests;
     private int tableNumber;
-    private int userId;
+    private String userId;
 
 
-    public Reservation(int id, String status, String dateTime, int numberOfGuests, int tableNumber, int userId) {
+    public Reservation(int id, String status, String dateTime, int numberOfGuests, int tableNumber, String userId) {
         this.id = id;
         this.status = status;
         this.dateTime = dateTime;
@@ -19,7 +19,7 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public Reservation(String status, String dateTime, int numberOfGuests, int tableNumber, int userId) {
+    public Reservation(String status, String dateTime, int numberOfGuests, int tableNumber, String userId) {
         this.status = status;
         this.dateTime = dateTime;
         this.numberOfGuests = numberOfGuests;
@@ -28,11 +28,11 @@ public class Reservation {
     }
 
     // --- Getters and Setters ---
-    public int getUserId() {
+    public String getUserId() { // CHANGE THIS
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) { // CHANGE THIS
         this.userId = userId;
     }
 

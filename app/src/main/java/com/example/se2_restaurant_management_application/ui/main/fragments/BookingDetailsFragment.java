@@ -15,9 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
+import com.example.se2_restaurant_management_application.data.models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class BookingDetailsFragment extends Fragment {
 
     // --- UI Components ---
+
+    private AccountViewModel accountViewModel;
     private CalendarView calendarView;
     private TextView timeTextView;
     private TextView paxTextView;
@@ -58,6 +62,7 @@ public class BookingDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
 
         initializeViews(view);
         retrieveArguments();
@@ -173,6 +178,16 @@ public class BookingDetailsFragment extends Fragment {
 
             if (reservationIdToEdit != -1) {
                 args.putInt("reservationIdToEdit", reservationIdToEdit);
+            }
+
+            User currentUser = accountViewModel.getLoggedInUser().getValue();
+            if (currentUser != null) {
+                args.putSerializable("currentUser", currentUser);
+                Log.d("DataTrace", "BookingDetailsFragment: Passing User '" + currentUser.getFullName() + "' to PickTableFragment.");
+            } else {
+                Log.e("DataTrace", "BookingDetailsFragment: FATAL! Could not get current user to create reservation.");
+                Toast.makeText(getContext(), "Error: User session not found. Please log in again.", Toast.LENGTH_LONG).show();
+                return;
             }
 
             NavHostFragment.findNavController(this)

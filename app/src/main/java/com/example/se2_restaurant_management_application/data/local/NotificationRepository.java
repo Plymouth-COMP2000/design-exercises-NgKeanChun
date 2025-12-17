@@ -59,7 +59,7 @@ public class NotificationRepository {
     /**
      * Fetches all notifications for a given user ID from the local SQLite database.
      */
-    public void fetchNotificationsForUser(int userId) {
+    public void getNotificationsForUser(String userId) {
         databaseWriteExecutor.execute(() -> {
             List<Notification> notificationList = new ArrayList<>();
             SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -73,7 +73,7 @@ public class NotificationRepository {
                 if (cursor.moveToFirst()) {
                     do {
                         int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_ID));
-                        int dbUserId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_USER_ID));
+                        String dbUserId = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_USER_ID));
                         String title = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_TITLE));
                         String body = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_BODY));
                         String status = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_STATUS));
@@ -108,7 +108,7 @@ public class NotificationRepository {
 
             long id = db.insert(DatabaseHelper.TABLE_NOTIFICATIONS, null, values);
             if (id != -1) {
-                fetchNotificationsForUser(notification.getUserId());
+                getNotificationsForUser(notification.getUserId());
             }
         });
     }

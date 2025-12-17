@@ -1,6 +1,8 @@
 package com.example.se2_restaurant_management_application.ui.main.fragments;
 
 import android.app.Application;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -11,6 +13,7 @@ import com.example.se2_restaurant_management_application.data.models.Notificatio
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import com.example.se2_restaurant_management_application.util.NotificationHelper;
 import com.example.se2_restaurant_management_application.util.SettingsManager;
+import com.example.se2_restaurant_management_application.data.models.User;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +24,6 @@ public class ReservationViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Reservation>> allReservations = new MutableLiveData<>();
     private final NotificationViewModel notificationViewModel;
     private final SettingsManager settingsManager;
-
     private final MutableLiveData<Reservation> _newReservationEvent = new MutableLiveData<>();
     public LiveData<Reservation> getNewReservationEvent() { return _newReservationEvent; }
 
@@ -44,12 +46,20 @@ public class ReservationViewModel extends AndroidViewModel {
         reservationRepository.getAllReservations(reservations -> allReservations.postValue(reservations));
     }
 
-    public void insert(Reservation reservation) {
+    public void insert(Reservation reservation, User currentUser) {
+        if (currentUser == null) {
+            Log.e("DataTrace", "ReservationViewModel: FAILED to get current user! Cannot insert.");
+            return;
+        }
+        final String correctUserId = currentUser.getId();
+        reservation.setUserId(correctUserId);
+
+        Log.d("DataTrace", "ReservationViewModel: Calling repository insert with CORRECT User ID: " + correctUserId);
         reservationRepository.insert(reservation);
         _newReservationEvent.postValue(reservation);
 
         // --- Staff Notification Logic ---
-        int staffUserId = -1;
+        String staffUserId = "staff";
         String title = "New Reservation Request";
         String body = "A new booking for " + reservation.getNumberOfGuests() + " guests is pending for " + reservation.getDateTime();
 
@@ -75,7 +85,7 @@ public class ReservationViewModel extends AndroidViewModel {
         reservationRepository.update(reservation);
 
         // --- STAFF NOTIFICATION LOGIC (For Edits/Cancellations by Guest) ---
-        int staffUserId = -1;
+        String staffUserId = "staff";
         String newStatus = reservation.getStatus().toLowerCase();
         String originalStatus = (originalReservation != null) ? originalReservation.getStatus().toLowerCase() : "";
         String staffTitle = "";

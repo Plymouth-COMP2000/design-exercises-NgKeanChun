@@ -2,6 +2,7 @@ package com.example.se2_restaurant_management_application.ui.main.fragments;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,15 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
+import com.example.se2_restaurant_management_application.data.models.User;
+
 
 public class StaffReservationStatusFragment extends Fragment {
 
     // UI Components
     private TextView guestNameTextView, guestPhoneTextView;
     private TextView dateTextView, timeTextView, paxTextView, tableTextView;
+    private AccountViewModel accountViewModel;
     private ImageView statusIcon;
     private TextView statusText;
     private Button denyButton, confirmButton;
@@ -46,6 +50,7 @@ public class StaffReservationStatusFragment extends Fragment {
 
         // Initialize the ViewModel
         reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);
+        accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class); // <-- ADD THIS
 
         initializeViews(view);
         populateDataFromArgs();
@@ -79,29 +84,50 @@ public class StaffReservationStatusFragment extends Fragment {
                 args.getString("reservationDateTime"),
                 args.getInt("reservationPax"),
                 args.getInt("reservationTable"),
-                args.getInt("reservationUserId")
+                args.getString("reservationUserId")
         );
 
-        // Populate the UI with data
-        guestNameTextView.setText(args.getString("guestName", "Unknown Guest"));
-        guestPhoneTextView.setText(args.getString("guestPhone", "N/A"));
+        String guestId = currentReservation.getUserId();
+        Log.d("DataTrace", "StaffReservationStatusFragment: Received guestId from bundle: " + guestId);
 
-        String dateTime = currentReservation.getDateTime();
-        String dateToDisplay = "Date: N/A";
-        String timeToDisplay = "Time: N/A";
+        if (guestId != null && !guestId.isEmpty()) { // Check if the String is valid
+            Log.d("DataTrace", "StaffReservationStatusFragment: Calling getGuestUserById(" + guestId + ") now.");
 
-        if (dateTime != null && dateTime.contains(",")) {
-            int lastComma = dateTime.lastIndexOf(',');
-            dateToDisplay = "Date: " + dateTime.substring(0, lastComma).trim();
-            timeToDisplay = "Time: " + dateTime.substring(lastComma + 1).trim();
+            accountViewModel.getGuestUserById(guestId).observe(getViewLifecycleOwner(), guestUser -> {
+                if (guestUser != null) {
+                    // SUCCESS: Display the fetched guest's details
+                    Log.d("DataTrace", "StaffReservationStatusFragment: Observer received SUCCESS. User is: " + guestUser.getFullName());
+                    guestNameTextView.setText(guestUser.getFullName());
+                    guestPhoneTextView.setText(guestUser.getContact());
+                } else {
+                    // FAILURE: The user could not be found on the server
+                    Log.e("DataTrace", "StaffReservationStatusFragment: Observer received FAILURE. guestUser is null.");
+                    guestNameTextView.setText("Unknown Guest");
+                    guestPhoneTextView.setText("ID: " + guestId);
+                }
+
+                String dateTime = currentReservation.getDateTime();
+                String dateToDisplay = "Date: N/A";
+                String timeToDisplay = "Time: N/A";
+
+                if (dateTime != null && dateTime.contains(",")) {
+                    int lastComma = dateTime.lastIndexOf(',');
+                    dateToDisplay = "Date: " + dateTime.substring(0, lastComma).trim();
+                    timeToDisplay = "Time: " + dateTime.substring(lastComma + 1).trim();
+                }
+
+                dateTextView.setText(dateToDisplay);
+                timeTextView.setText(timeToDisplay);
+                paxTextView.setText("Pax: " + currentReservation.getNumberOfGuests());
+                tableTextView.setText("Table: " + currentReservation.getTableNumber());
+
+                updateStatusAppearance(currentReservation.getStatus());
+            });
+        } else {
+
+            guestNameTextView.setText("Invalid Guest ID");
+            guestPhoneTextView.setText("N/A");
         }
-
-        dateTextView.setText(dateToDisplay);
-        timeTextView.setText(timeToDisplay);
-        paxTextView.setText("Pax: " + currentReservation.getNumberOfGuests());
-        tableTextView.setText("Table: " + currentReservation.getTableNumber());
-
-        updateStatusAppearance(currentReservation.getStatus());
     }
 
     private void setupButtonListeners() {

@@ -55,7 +55,7 @@ public class StaffNotificationsFragment extends Fragment implements Notification
         setupRecyclerView();
         observeData();
 
-        notificationViewModel.fetchNotifications(-1); // Staff ID
+        notificationViewModel.fetchNotifications("staff");
     }
 
     private void initializeViewModels() {
@@ -144,7 +144,7 @@ public class StaffNotificationsFragment extends Fragment implements Notification
         if (!notification.isRead()) {
             notification.markAsRead();
             notificationViewModel.markNotificationAsRead(notification);
-            notificationViewModel.fetchNotifications(-1);
+            notificationViewModel.fetchNotifications("staff");
         }
 
         Reservation targetReservation = findReservationForNotification(notification);
@@ -182,7 +182,7 @@ public class StaffNotificationsFragment extends Fragment implements Notification
         args.putString("reservationDateTime", reservation.getDateTime());
         args.putInt("reservationPax", reservation.getNumberOfGuests());
         args.putInt("reservationTable", reservation.getTableNumber());
-        args.putInt("reservationUserId", reservation.getUserId());
+        args.putString("reservationUserId", reservation.getUserId());
 
         User guestUser = findUserById(reservation.getUserId());
         if (guestUser != null) {
@@ -202,9 +202,10 @@ public class StaffNotificationsFragment extends Fragment implements Notification
         }
     }
 
-    private User findUserById(int userId) {
+    private User findUserById(String userId) {
+        if (userId == null) return null;
         for (User user : allUsers) {
-            if (user.getId() == userId) {
+            if (userId.equals(user.getId())) {
                 return user;
             }
         }

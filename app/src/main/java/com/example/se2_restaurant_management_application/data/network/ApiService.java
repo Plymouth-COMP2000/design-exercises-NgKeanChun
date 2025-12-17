@@ -44,7 +44,7 @@ public interface ApiService {
      * Example URL: read_notifications.php?student_id=BSSE...&user_id=123
      */
     @GET("read_notifications/{student_id}")
-    Call<ApiResponse> getNotificationsForUser(@Path("student_id") String studentId, @Query("user_id") int userId);
+    Call<ApiResponse> getNotificationsForUser(@Path("student_id") String studentId, @Query("user_id") String userId);
 
     @DELETE("delete_user/{student_id}/{username}")
     Call<ApiResponse> deleteUser(

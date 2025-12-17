@@ -79,7 +79,7 @@ public class StaffAccountFragment extends Fragment {
                                 uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                         if (currentUser != null) {
-                            int userId = currentUser.getId();
+                            String userId = currentUser.getId();
                             String imageUriString = uri.toString();
                             accountViewModel.updateUserImage(userId, imageUriString);
 

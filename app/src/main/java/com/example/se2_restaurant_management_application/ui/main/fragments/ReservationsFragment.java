@@ -200,27 +200,17 @@ public class ReservationsFragment extends Fragment implements ReservationsAdapte
     }
 
     // --- Interface Implementation (OnItemClickListener) ---
-
     @Override
     public void onItemClick(Reservation reservation) {
-        User currentUser = accountViewModel.getLoggedInUser().getValue();
         Bundle args = new Bundle();
 
-        // Pass reservation details
+        // Pass ONLY the reservation details. The next screen will fetch the user info.
         args.putInt("reservationId", reservation.getId());
         args.putString("reservationStatus", reservation.getStatus());
         args.putString("reservationDateTime", reservation.getDateTime());
         args.putInt("reservationPax", reservation.getNumberOfGuests());
         args.putInt("reservationTable", reservation.getTableNumber());
-        args.putInt("reservationUserId", reservation.getUserId());
-
-
-
-        // Pass user details if available
-        if (currentUser != null) {
-            args.putString("guestName", currentUser.getFullName());
-            args.putString("guestPhone", currentUser.getContact());
-        }
+        args.putString("reservationUserId", reservation.getUserId());
 
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_global_to_reservation_status, args);

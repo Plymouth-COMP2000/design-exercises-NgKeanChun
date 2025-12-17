@@ -39,8 +39,8 @@ public class NotificationViewModel extends AndroidViewModel {
         errorLiveData.setValue(null);
     }
 
-    public void fetchNotifications(int userId) {
-        notificationRepository.fetchNotificationsForUser(userId);
+    public void fetchNotifications(String userId) {
+        notificationRepository.getNotificationsForUser(userId);
     }
 
     public void createNotification(Notification notification) {

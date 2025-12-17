@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
+import com.example.se2_restaurant_management_application.ui.main.fragments.AccountViewModel;
+import com.example.se2_restaurant_management_application.data.models.User;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -34,6 +36,7 @@ public class ReservationStatusFragment extends Fragment {
 
     //ViewModel
     private ReservationViewModel reservationViewModel;
+    private AccountViewModel accountViewModel;
     private Reservation currentReservation;
 
     @Nullable
@@ -46,6 +49,7 @@ public class ReservationStatusFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);
+        accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
         initializeViews(view);
 
         ImageButton backButton = view.findViewById(R.id.BackButton);
@@ -88,8 +92,19 @@ public class ReservationStatusFragment extends Fragment {
                 args.getString("reservationDateTime", "N/A, N/A"),
                 args.getInt("reservationPax", 0),
                 args.getInt("reservationTable", 0),
-                args.getInt("reservationUserId", -1)
+                args.getString("reservationUserId", null)
         );
+
+        accountViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), loggedInUser -> {
+            if (loggedInUser != null) {
+                guestNameTextView.setText(loggedInUser.getFullName());
+                guestPhoneTextView.setText(loggedInUser.getContact());
+            } else {
+                // This is a fallback in case the user data isn't ready yet.
+                guestNameTextView.setText("Loading...");
+                guestPhoneTextView.setText("Loading...");
+            }
+        });
 
 
         // Retrieve all data from the bundle

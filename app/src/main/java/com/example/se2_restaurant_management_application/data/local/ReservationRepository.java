@@ -35,7 +35,7 @@ public class ReservationRepository {
                     String dateTime = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_RESERVATION_DATETIME));
                     int guests = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_RESERVATION_GUESTS));
                     int tableNum = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_RESERVATION_TABLE_NUM));
-                    int userId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID));
+                    String userId = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID));
 
                     Reservation reservation = new Reservation(id, status, dateTime, guests, tableNum, userId);
                     reservationList.add(reservation);
@@ -47,6 +47,11 @@ public class ReservationRepository {
     }
 
     public void insert(Reservation reservation) {
+        final String userId = reservation.getUserId();
+        insert(reservation, userId);
+    }
+
+    public void insert(Reservation reservation, final String userId) {
         databaseWriteExecutor.execute(() -> {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -54,7 +59,9 @@ public class ReservationRepository {
             values.put(DatabaseHelper.COLUMN_RESERVATION_DATETIME, reservation.getDateTime());
             values.put(DatabaseHelper.COLUMN_RESERVATION_GUESTS, reservation.getNumberOfGuests());
             values.put(DatabaseHelper.COLUMN_RESERVATION_TABLE_NUM, reservation.getTableNumber());
-            values.put(DatabaseHelper.COLUMN_USER_ID, reservation.getUserId());
+
+            values.put(DatabaseHelper.COLUMN_USER_ID, userId);
+
             db.insert(DatabaseHelper.TABLE_RESERVATIONS, null, values);
         });
     }

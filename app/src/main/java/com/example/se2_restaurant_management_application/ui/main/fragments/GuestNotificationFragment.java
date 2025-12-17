@@ -40,8 +40,7 @@ public class GuestNotificationFragment extends Fragment implements Notifications
     private NotificationsAdapter adapter;
     private TextView emptyStateTextView;
     private List<Reservation> allReservations = new ArrayList<>();
-    private int currentUserId = -1;
-
+    private String currentUserId = null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -155,7 +154,7 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         }
 
         for (Reservation res : allReservations) {
-            if (res.getUserId() == currentUserId && body.contains(res.getDateTime())) {
+            if (currentUserId.equals(res.getUserId()) && body.contains(res.getDateTime())) {
                 return res;
             }
         }
@@ -172,7 +171,7 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         args.putString("reservationDateTime", reservation.getDateTime());
         args.putInt("reservationPax", reservation.getNumberOfGuests());
         args.putInt("reservationTable", reservation.getTableNumber());
-        args.putInt("reservationUserId", reservation.getUserId());
+        args.putString("reservationUserId", reservation.getUserId());
 
         User currentUser = accountViewModel.getLoggedInUser().getValue();
         if (currentUser != null) {

@@ -212,12 +212,19 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
                 return;
             }
 
-            User currentUser = accountViewModel.getLoggedInUser().getValue();
+            User currentUser = null;
+            if (getArguments() != null) {
+                currentUser = (User) getArguments().getSerializable("currentUser");
+            }
+
             if (currentUser == null) {
                 Toast.makeText(getContext(), "Error: User not logged in.", Toast.LENGTH_SHORT).show();
+                Log.e("DataTrace", "PickTableFragment: CRITICAL - currentUser from bundle is null!");
                 return;
             }
-            int userId = currentUser.getId();
+            String userId = currentUser.getId();
+            Log.d("DataTrace", "PickTableFragment: Preparing to save reservation with User ID: " + userId);
+
 
             // Get the selected table number
             int tableNumber = Integer.parseInt(selectedTable.getText().toString());
@@ -232,7 +239,7 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
                         selectedDateTime,
                         pax,
                         tableNumber,
-                        userId // <-- Pass the user ID
+                        userId
                 );
                 // Call the UPDATE method in the ViewModel
                 reservationViewModel.update(updatedReservation);
@@ -248,7 +255,7 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
                         userId // <-- Pass the user ID
                 );
                 // Call the INSERT method in the ViewModel
-                reservationViewModel.insert(newBooking);
+                reservationViewModel.insert(newBooking, currentUser);
             }
 
             // After inserting or updating, navigate ALL THE WAY BACK to the reservations list.

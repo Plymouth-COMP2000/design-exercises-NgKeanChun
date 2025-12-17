@@ -8,7 +8,7 @@ public class Notification implements DisplayableItem {
     private int id;
 
     @SerializedName("user_id")
-    private int userId;
+    private String userId;
 
     @SerializedName("title")
     private String title;
@@ -28,7 +28,7 @@ public class Notification implements DisplayableItem {
     }
 
     // --- Constructors ---
-    public Notification(int id, int userId, String title, String body, String status, boolean isRead) {
+    public Notification(int id, String userId, String title, String body, String status, boolean isRead) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -38,7 +38,7 @@ public class Notification implements DisplayableItem {
     }
 
 
-    public Notification(int userId, String title, String body, String status) {
+    public Notification(String userId, String title, String body, String status) {
         this.userId = userId;
         this.title = title;
         this.body = body;
@@ -49,7 +49,7 @@ public class Notification implements DisplayableItem {
 
     // --- Getters ---
     public int getId() { return id; }
-    public int getUserId() { return userId; }
+    public String getUserId() { return userId; }
     public String getTitle() { return title; }
     public String getBody() { return body; }
     public String getStatus() { return status; }
@@ -57,7 +57,7 @@ public class Notification implements DisplayableItem {
 
     // --- Setters ---
     public void setId(int id) { this.id = id; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public void setUserId(String userId) { this.userId = userId; }
     public void setTitle(String title) { this.title = title; }
     public void setBody(String body) { this.body = body; }
     public void setStatus(String status) { this.status = status; }

@@ -97,8 +97,38 @@ public class UserRepository {
         return signupErrorLiveData;
     }
 
+        // --- Repository Public Methods ---
 
-    // --- Repository Public Methods ---
+    public LiveData<User> getUserFromApiById(String userId) {
+        MutableLiveData<User> foundUserLiveData = new MutableLiveData<>();
+        apiService.getAllUsers(studentId).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("DataTrace", "UserRepository: Network call successful. Looping through " + response.body().getUsers().size() + " users to find ID: " + userId);
+                    for (User user : response.body().getUsers()) {
+                        // Compare two Strings using the .equals() method
+                        if (user.getId().equals(userId)) {
+                            Log.d("DataTrace", "UserRepository: MATCH FOUND! User is " + user.getFullName());
+                            foundUserLiveData.postValue(user);
+                            return; // User found
+                        }
+                    }
+                }
+                Log.e("DataTrace", "UserRepository: NO MATCH FOUND after looping. Posting null.");
+                foundUserLiveData.postValue(null);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e("DataTrace", "UserRepository: Network call FAILED. Error: " + t.getMessage());
+                foundUserLiveData.postValue(null);
+            }
+        });
+        return foundUserLiveData;
+    }
+
+
     public void getAllUsers() {
         apiService.getAllUsers(studentId).enqueue(new Callback<UserResponse>() {
             @Override
@@ -128,44 +158,34 @@ public class UserRepository {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().getUsers() != null) {
-                    List<User> userList = response.body().getUsers();
                     User foundUser = null;
-
-                    for (User user : userList) {
-                        // Use .equalsIgnoreCase for a case-insensitive username check
+                    for (User user : response.body().getUsers()) {
                         if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)) {
                             foundUser = user;
                             break;
                         }
                     }
-
                     if (foundUser != null) {
-                        // After finding the user from the server, check for a local image URI.
                         String localImageUri = getLocalImageUri(foundUser.getId());
                         if (localImageUri != null) {
-                            foundUser.setImageUri(localImageUri); // Add it to the user object!
+                            foundUser.setImageUri(localImageUri);
                         }
-
                         loggedInUserLiveData.postValue(foundUser);
                         loginErrorLiveData.postValue(null);
                     } else {
                         loginErrorLiveData.postValue("Invalid username or password.");
-                        loggedInUserLiveData.postValue(null);
                     }
                 } else {
                     loginErrorLiveData.postValue("Login failed: " + response.message());
-                    loggedInUserLiveData.postValue(null);
                 }
             }
-
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 loginErrorLiveData.postValue("Network error: " + t.getMessage());
-                loggedInUserLiveData.postValue(null);
             }
         });
     }
-    private String getLocalImageUri(int userId) {
+    private String getLocalImageUri(String userId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String imageUri = null;
         Cursor cursor = null;
@@ -174,7 +194,7 @@ public class UserRepository {
                     DatabaseHelper.TABLE_USERS,
                     new String[]{DatabaseHelper.COLUMN_USER_IMAGE_URI},
                     DatabaseHelper.COLUMN_USER_ID + " = ?",
-                    new String[]{String.valueOf(userId)},
+                    new String[]{userId},
                     null, null, null
             );
 
@@ -227,41 +247,47 @@ public class UserRepository {
     public void findUserByIdentifier(String identifier, boolean isPhone) {
         // Ensure the full user list is loaded and available
         if (allUsersLiveData.getValue() == null) {
-            userSearchErrorLiveData.postValue("User list not available. Please try again.");
+            mainThreadHandler.post(() -> userSearchErrorLiveData.setValue("User list not available. Please try again."));
             return;
         }
 
-        List<User> userList = allUsersLiveData.getValue();
-        User foundUser = null;
+        databaseWriteExecutor.execute(() -> {
+            List<User> userList = allUsersLiveData.getValue();
+            User foundUser = null;
 
-        for (User user : userList) {
-            if (isPhone) {
-                // Search by phone number
-                if (user.getContact().equals(identifier)) {
-                    foundUser = user;
-                    break;
-                }
-            } else {
-                // Search by email (case-insensitive)
-                if (user.getEmail().equalsIgnoreCase(identifier)) {
-                    foundUser = user;
-                    break;
+            if (userList != null) {
+                for (User user : userList) {
+                    if (isPhone) {
+                        // Search by phone number
+                        if (user.getContact() != null && user.getContact().equals(identifier)) {
+                            foundUser = user;
+                            break;
+                        }
+                    } else {
+                        // Search by email (case-insensitive)
+                        if (user.getEmail() != null && user.getEmail().equalsIgnoreCase(identifier)) {
+                            foundUser = user;
+                            break;
+                        }
+                    }
                 }
             }
-        }
 
-        if (foundUser != null) {
-            // User was found, post the user object to the LiveData
-            foundUserLiveData.postValue(foundUser);
-            userSearchErrorLiveData.postValue(null); // Clear any previous errors
-        } else {
-            // No user was found with that identifier
-            foundUserLiveData.postValue(null); // Clear previous found user
-            userSearchErrorLiveData.postValue("No account found with that " + (isPhone ? "phone number." : "email address."));
-        }
+            User finalFoundUser = foundUser;
+            mainThreadHandler.post(() -> {
+                if (finalFoundUser != null) {
+                    this.foundUserLiveData.setValue(finalFoundUser);
+                    this.userSearchErrorLiveData.setValue(null); // Clear any previous errors
+                } else {
+                    // User was not found
+                    this.userSearchErrorLiveData.setValue("Account not found with the provided details.");
+                    this.foundUserLiveData.setValue(null);
+                }
+            });
+        });
     }
 
-    public void updateUserImage(int userId, String imageUri) {
+    public void updateUserImage(String userId, String imageUri) {
         databaseWriteExecutor.execute(() -> {
             Log.d("UserRepository", "updateUserImage called for user ID: " + userId + " with new URI: " + imageUri);
 
@@ -379,7 +405,7 @@ public class UserRepository {
         });
     }
 
-    public void restoreSession(int userId) {
+    public void restoreSession(String userId) {
         // Ensure the list of all users is available.
         List<User> userList = allUsersLiveData.getValue();
         if (userList != null && !userList.isEmpty()) {

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "restaurant.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // --- User Table Columns ---
     public static final String TABLE_USERS = "users";
@@ -62,14 +62,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_RESERVATION_DATETIME + " TEXT, " +
                     COLUMN_RESERVATION_GUESTS + " INTEGER, " +
                     COLUMN_RESERVATION_TABLE_NUM + " INTEGER, " +
-                    COLUMN_USER_ID + " INTEGER" +
+                    COLUMN_USER_ID + " TEXT" +
                     ")";
 
 
     private static final String TABLE_CREATE_NOTIFICATIONS =
             "CREATE TABLE " + TABLE_NOTIFICATIONS + " (" +
                     COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NOTIFICATION_USER_ID + " INTEGER, " +
+                    COLUMN_NOTIFICATION_USER_ID + " TEXT, " +
                     COLUMN_NOTIFICATION_TITLE + " TEXT, " +
                     COLUMN_NOTIFICATION_BODY + " TEXT, " +
                     COLUMN_NOTIFICATION_STATUS + " TEXT, " +
@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_CREATE_USERS =
             "CREATE TABLE " + TABLE_USERS + " (" +
-                    COLUMN_USER_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_USER_ID + " TEXT PRIMARY KEY, " +
                     COLUMN_USER_IMAGE_URI + " TEXT" +
                     ");";
 

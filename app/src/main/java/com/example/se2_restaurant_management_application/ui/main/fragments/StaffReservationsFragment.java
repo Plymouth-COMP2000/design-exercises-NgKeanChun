@@ -2,6 +2,7 @@ package com.example.se2_restaurant_management_application.ui.main.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,23 +142,16 @@ public class StaffReservationsFragment extends Fragment implements ReservationsA
 
     @Override
     public void onItemClick(Reservation reservation) {
-        // Staff navigates to a special status screen to confirm/deny
+        Log.d("DataTrace", "StaffReservationsFragment: Clicked on a reservation. The guest's User ID is: " + reservation.getUserId());
+
         Bundle args = new Bundle();
         args.putInt("reservationId", reservation.getId());
         args.putString("reservationStatus", reservation.getStatus());
         args.putString("reservationDateTime", reservation.getDateTime());
         args.putInt("reservationPax", reservation.getNumberOfGuests());
         args.putInt("reservationTable", reservation.getTableNumber());
-
-        User guestUser = accountViewModel.getUserForReservation(reservation); // We need to implement this
-        if (guestUser != null) {
-            args.putString("guestName", guestUser.getFullName());
-            args.putString("guestPhone", guestUser.getContact());
-        } else {
-            args.putString("guestName", "Unknown Guest");
-            args.putString("guestPhone", "N/A");
-        }
-
+        args.putString("reservationUserId", reservation.getUserId());
+        Log.d("DataTrace", "StaffReservationsFragment: Putting reservationUserId into bundle: " + args.getString("reservationUserId"));
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_staff_reservations_to_staff_status, args);
     }

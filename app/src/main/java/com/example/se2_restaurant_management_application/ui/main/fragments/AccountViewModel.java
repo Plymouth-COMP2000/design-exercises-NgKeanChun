@@ -41,6 +41,9 @@ public class AccountViewModel extends AndroidViewModel {
         return allUsersLiveData;
     }
 
+    public LiveData<User> getGuestUserById(String userId) {
+        return userRepository.getUserFromApiById(userId);
+    }
     public LiveData<String> getUpdateUserSuccessLiveData() {
         return userRepository.getUpdateUserSuccessLiveData();
     }
@@ -63,7 +66,7 @@ public class AccountViewModel extends AndroidViewModel {
             return null;
         }
         for (User user : users) {
-            if (user.getId() == reservation.getUserId()) {
+            if (user.getId().equals(reservation.getUserId())) {
                 return user;
             }
         }
@@ -89,7 +92,7 @@ public class AccountViewModel extends AndroidViewModel {
         userRepository.deleteUser(username);
     }
 
-    public void updateUserImage(int userId, String imageUri) {
+    public void updateUserImage(String userId, String imageUri) {
         userRepository.updateUserImage(userId, imageUri);
     }
 
