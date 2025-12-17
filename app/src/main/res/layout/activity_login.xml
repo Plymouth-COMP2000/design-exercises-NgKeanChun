@@ -95,7 +95,7 @@
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="92dp"
         android:background="@drawable/proceed_button_rounded"
         android:text="Login"
         app:backgroundTint="@color/button_dark_green"
