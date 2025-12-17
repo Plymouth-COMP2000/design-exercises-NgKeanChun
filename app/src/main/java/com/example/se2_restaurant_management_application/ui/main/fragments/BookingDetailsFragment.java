@@ -109,9 +109,6 @@ public class BookingDetailsFragment extends Fragment {
         calendarView.setMinDate(calendar.getTimeInMillis());
         lastSelectedDateMillis = calendar.getTimeInMillis(); // Initialize with today's date
 
-        // --- FIX 2: REMOVE THE setMaxDate() CALL ---
-        // calendarView.setMaxDate(maxDate); // This line is now removed.
-
         // Set the initially selected date string to today
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault());
         selectedDate = sdf.format(calendar.getTime());

@@ -1,14 +1,17 @@
 package com.example.se2_restaurant_management_application.ui.main.fragments;
 
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -134,30 +137,90 @@ public class StaffReservationStatusFragment extends Fragment {
         denyButton.setOnClickListener(v -> {
             if (currentReservation == null) return;
 
-            // The text on this button changes to "Cancel" for confirmed reservations,
-            // so we make the dialog message dynamic.
-            String title = "Deny Reservation";
-            String message = "Are you sure you want to deny this reservation?";
+            // Determine the title and message based on the button's current text ("Deny" or "Cancel")
+            String titleText = "Deny Reservation";
+            String messageText = "Are you sure you want to deny this reservation?";
+            String positiveButtonText = "Deny it";
             if ("Cancel".equalsIgnoreCase(denyButton.getText().toString())) {
-                title = "Cancel Reservation";
-                message = "Are you sure you want to cancel this confirmed reservation?";
+                titleText = "Cancel Reservation";
+                messageText = "Are you sure you want to cancel this confirmed reservation?";
+                positiveButtonText = "Cancel it";
             }
 
-            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        // User clicked "Yes", proceed with the update.
+            TextView customTitle = new TextView(requireContext());
+            customTitle.setText(titleText);
+            customTitle.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+            customTitle.setGravity(Gravity.CENTER);
+            customTitle.setPadding(10, 40, 10, 10);
+            customTitle.setTextSize(22f);
+            customTitle.setTypeface(null, Typeface.BOLD);
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setCustomTitle(customTitle)
+                    .setMessage(messageText)
+                    .setPositiveButton(positiveButtonText, (dialog, which) -> {
                         handleReservationUpdate("Cancelled", "Reservation Cancelled");
                     })
-                    .setNegativeButton("No", null) // Do nothing if user clicks "No".
-                    .show();
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.ic_cancel);
+
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
+
+            Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+
+            TextView messageTextView = dialog.findViewById(android.R.id.message);
+            if (messageTextView != null) {
+                negativeButton.setTextColor(messageTextView.getCurrentTextColor());
+            }
+
+            final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            positiveButton.setLayoutParams(params);
+            negativeButton.setLayoutParams(params);
         });
 
         confirmButton.setOnClickListener(v -> {
-            handleReservationUpdate("Confirmed", "Reservation Confirmed");
+            TextView confirmTitle = new TextView(requireContext());
+            confirmTitle.setText("Confirm Reservation?");
+            confirmTitle.setTextColor(getResources().getColor(R.color.status_confirmed_bg, null)); // Using your green color
+            confirmTitle.setGravity(Gravity.CENTER);
+            confirmTitle.setPadding(10, 40, 10, 10);
+            confirmTitle.setTextSize(22f);
+            confirmTitle.setTypeface(null, Typeface.BOLD);
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setCustomTitle(confirmTitle)
+                    .setMessage("Do you want to confirm this reservation?")
+                    .setPositiveButton("Confirm", (dialog, which) -> {
+                        handleReservationUpdate("Confirmed", "Reservation Confirmed");
+                    })
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.ic_confirmed);
+
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
+
+            Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(R.color.status_confirmed_bg, null));
+            TextView messageTextView = dialog.findViewById(android.R.id.message);
+            if (messageTextView != null) {
+                negativeButton.setTextColor(messageTextView.getCurrentTextColor());
+            }
+
+            // Center the buttons
+            final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            positiveButton.setLayoutParams(params);
+            negativeButton.setLayoutParams(params);
         });
     }
+
 
     private void handleReservationUpdate(String newStatus, String toastMessage) {
         if (currentReservation != null) {

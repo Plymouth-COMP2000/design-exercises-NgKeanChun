@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class MenuFragment extends Fragment {
+public class GuestMenuFragment extends Fragment {
 
 
     private RecyclerView menuRecyclerView;
@@ -105,7 +105,7 @@ public class MenuFragment extends Fragment {
             bundle.putString("itemDescription", menu.getDescription());
             bundle.putString("itemCategory", menu.getCategory());
             bundle.putInt("itemImageId", menu.getImageDrawableId());
-            NavHostFragment.findNavController(MenuFragment.this)
+            NavHostFragment.findNavController(GuestMenuFragment.this)
                     .navigate(R.id.action_menu_to_menu_detail, bundle);
         });
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

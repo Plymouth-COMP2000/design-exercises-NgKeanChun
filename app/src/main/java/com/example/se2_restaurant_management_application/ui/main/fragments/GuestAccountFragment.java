@@ -4,10 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +42,7 @@ import com.example.se2_restaurant_management_application.util.SessionManager;
 import com.example.se2_restaurant_management_application.util.SettingsManager;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
-public class AccountFragment extends Fragment {
+public class GuestAccountFragment extends Fragment {
 
     private AccountViewModel accountViewModel;
     private LoginViewModel loginViewModel;
@@ -179,40 +184,47 @@ public class AccountFragment extends Fragment {
     }
 
     private void showDeleteConfirmationDialog() {
-        TextView titleTextView = new TextView(requireContext());
-        titleTextView.setText("Delete Account");
-        titleTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
-        titleTextView.setTextSize(20f);
-        titleTextView.setPadding(
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // left
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // top
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // right
-                0  // bottom
-        );
+        TextView customTitle = new TextView(requireContext());
+        customTitle.setText("Delete Account?");
+        customTitle.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+        customTitle.setGravity(Gravity.CENTER);
+        customTitle.setPadding(10, 40, 10, 10);
+        customTitle.setTextSize(22f);
+        customTitle.setTypeface(null, Typeface.BOLD);
 
-        TextView messageTextView = new TextView(requireContext());
-        messageTextView.setText("Are you sure you want to permanently delete your account? This action cannot be undone.");
-        messageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
-        messageTextView.setTextSize(16f);
-        messageTextView.setPadding(
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // left
-                0, // top
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // right
-                getResources().getDimensionPixelSize(R.dimen.dialog_margin)  // bottom
+        String mainMessage = "Are you sure you want to permanently delete your account?\n\n";
+        String warningMessage = "WARNING: This action cannot be undone.";
+        SpannableString styledMessage = new SpannableString(mainMessage + warningMessage);
+        styledMessage.setSpan(
+                new ForegroundColorSpan(getResources().getColor(android.R.color.holo_red_dark, null)),
+                mainMessage.length(),
+                styledMessage.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+                .setCustomTitle(customTitle)
+                .setMessage(styledMessage)
+                .setPositiveButton("Delete It", (dialogInterface, which) -> showPasswordVerificationDialog())
+                .setNegativeButton("No", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
-        AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setCustomTitle(titleTextView)
-                .setView(messageTextView)
-                .setPositiveButton("Delete it", (dialogInterface, which) -> showPasswordVerificationDialog())
-                .setNegativeButton("No", null)
-                .show();
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        if (positiveButton != null) {
-            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
+        Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+        positiveButton.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+
+        TextView messageTextView = dialog.findViewById(android.R.id.message);
+        if (messageTextView != null) {
+            negativeButton.setTextColor(messageTextView.getCurrentTextColor());
         }
 
-    }
+
+    final android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+    params.gravity =Gravity.CENTER;
+    positiveButton.setLayoutParams(params);
+    negativeButton.setLayoutParams(params);
+}
 
     private void observeDeleteEvents() {
         accountViewModel.getDeleteUserSuccessLiveData().observe(getViewLifecycleOwner(), message -> {
@@ -275,7 +287,7 @@ public class AccountFragment extends Fragment {
     private void loadSettings() {
         notificationsSwitch.setChecked(settingsManager.getBoolean("guest_notifications_allowed", true));
         reservationsConfirmedSwitch.setChecked(settingsManager.getBoolean("guest_reservations_confirmed", true));
-        bookingChangesSwitch.setChecked(settingsManager.getBoolean("guest_booking_changes", false));
+        bookingChangesSwitch.setChecked(settingsManager.getBoolean("guest_booking_changes", true));
     }
 
     private void setupSwitchListeners() {

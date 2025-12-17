@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
-import com.example.se2_restaurant_management_application.data.models.User;
 import com.example.se2_restaurant_management_application.ui.auth.LoginActivity;
 import com.example.se2_restaurant_management_application.ui.auth.LoginViewModel;
 import com.example.se2_restaurant_management_application.ui.main.Adapters.ReservationsAdapter;
@@ -26,7 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationsFragment extends Fragment implements ReservationsAdapter.OnItemClickListener {
+public class GuestReservationsFragment extends Fragment implements ReservationsAdapter.OnItemClickListener {
 
     // UI Components
     private RecyclerView reservationsRecyclerView;
@@ -156,8 +155,6 @@ public class ReservationsFragment extends Fragment implements ReservationsAdapte
         bookTableButton.setOnClickListener(v -> NavHostFragment.findNavController(this)
                 .navigate(R.id.action_reservations_to_bookingDetails));
         logoutButton.setOnClickListener(v -> performLogout());
-
-        // --- FIX: Add the listener for the notification button ---
         ImageButton notificationButton = requireView().findViewById(R.id.notificationButton);
         notificationButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigate(R.id.action_guest_reservations_to_notifications)

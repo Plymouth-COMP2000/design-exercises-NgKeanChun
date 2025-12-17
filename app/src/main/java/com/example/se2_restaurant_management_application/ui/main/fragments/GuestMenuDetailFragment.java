@@ -16,7 +16,7 @@ import com.example.se2_restaurant_management_application.R;
 
 import java.util.Locale;
 
-public class MenuDetailFragment extends Fragment {
+public class GuestMenuDetailFragment extends Fragment {
 
     // --- Declare UI components ---
     private ImageView detailFoodImageView;
@@ -37,7 +37,7 @@ public class MenuDetailFragment extends Fragment {
 
         // Find the back button
         Button backButton = view.findViewById(R.id.BackButton);
-        backButton.setOnClickListener(v -> NavHostFragment.findNavController(MenuDetailFragment.this).popBackStack());
+        backButton.setOnClickListener(v -> NavHostFragment.findNavController(GuestMenuDetailFragment.this).popBackStack());
 
         // --- Find all the other UI components ---
         detailFoodImageView = view.findViewById(R.id.detailFoodImageView);

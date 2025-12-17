@@ -1,7 +1,9 @@
 package com.example.se2_restaurant_management_application.ui.main.fragments;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -242,16 +245,41 @@ public class StaffMenuEditFragment extends Fragment {
 
     private void deleteItem() {
         if (currentMenuItem != null) {
-            // Create and show an AlertDialog for confirmation.
-            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Delete Menu Item")
+            TextView customTitle = new TextView(requireContext());
+            customTitle.setText("Delete Item?");
+            customTitle.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+            customTitle.setGravity(Gravity.CENTER);
+            customTitle.setPadding(10, 40, 10, 10);
+            customTitle.setTextSize(22f);
+            customTitle.setTypeface(null, Typeface.BOLD);
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setCustomTitle(customTitle)
                     .setMessage("Are you sure you want to delete this item? This action cannot be undone.")
                     .setPositiveButton("Delete it", (dialog, which) -> {
                         menuViewModel.delete(currentMenuItem);
                     })
                     .setNegativeButton("No", null)
-                    .setIcon(R.drawable.ic_cancel)
-                    .show();
+                    .setIcon(R.drawable.ic_cancel);
+
+
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
+
+            Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+            TextView messageTextView = dialog.findViewById(android.R.id.message);
+
+            if (messageTextView != null) {
+                negativeButton.setTextColor(messageTextView.getCurrentTextColor());
+            }
+            final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            positiveButton.setLayoutParams(params);
+            negativeButton.setLayoutParams(params);
+
         } else {
             Toast.makeText(getContext(), "Error: Cannot delete item.", Toast.LENGTH_SHORT).show();
         }

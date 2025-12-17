@@ -1,8 +1,10 @@
 package com.example.se2_restaurant_management_application.ui.main.fragments;
 
+import android.graphics.Typeface;
 import android.util.Log;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
-import com.example.se2_restaurant_management_application.ui.main.fragments.AccountViewModel;
-import com.example.se2_restaurant_management_application.data.models.User;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.util.Locale;
-
-public class ReservationStatusFragment extends Fragment {
+public class GuestReservationStatusFragment extends Fragment {
 
     // UI Components
     private TextView guestNameTextView, guestPhoneTextView;
@@ -178,44 +174,91 @@ public class ReservationStatusFragment extends Fragment {
 
     //Method to set up the button listeners
     private void setupButtonListeners() {
-        // Cancel Button Listener
         cancelReservationButton.setOnClickListener(v -> {
             if (currentReservation == null) return;
 
-            // Create a confirmation dialog
-            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Cancel Reservation")
+            TextView customTitle = new TextView(requireContext());
+            customTitle.setText("Cancel Reservation?");
+            customTitle.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+            customTitle.setGravity(Gravity.CENTER);
+            customTitle.setPadding(10, 40, 10, 10);
+            customTitle.setTextSize(22f);
+            customTitle.setTypeface(null, Typeface.BOLD);
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setCustomTitle(customTitle)
                     .setMessage("Are you sure you want to cancel this reservation?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
+                    .setPositiveButton("Cancel it", (dialog, which) -> {
                         // User confirmed, proceed with cancellation
-
-                        // 1. Change the status of the local object
                         currentReservation.setStatus("Cancelled");
-
-                        // 2. Pass the MODIFIED object to the ViewModel to update the database
                         reservationViewModel.update(currentReservation);
-
-                        // 3. Set a result for the previous screen to know we cancelled an item.
                         NavHostFragment.findNavController(this).getPreviousBackStackEntry()
                                 .getSavedStateHandle().set("show_history", true);
-
-                        // 4. Navigate back
                         NavHostFragment.findNavController(this).popBackStack();
                     })
-                    .setNegativeButton("No", null) // Do nothing if user clicks "No"
-                    .show();
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.ic_cancel);
+
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
+
+            Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
+
+            TextView messageTextView = dialog.findViewById(android.R.id.message);
+            if (messageTextView != null) {
+                negativeButton.setTextColor(messageTextView.getCurrentTextColor());
+            }
+
+            final android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            positiveButton.setLayoutParams(params);
+            negativeButton.setLayoutParams(params);
         });
 
-        // Edit Button Listener
+        // --- Edit Button Listener ---
         editButton.setOnClickListener(v -> {
             if (currentReservation == null) return;
-            // Create a bundle to pass the ID of the reservation we are editing
-            Bundle args = new Bundle();
-            Log.d("EditReservationFlow", "StatusFragment: Putting reservationIdToEdit into bundle: " + currentReservation.getId());
-            args.putInt("reservationIdToEdit", currentReservation.getId());
-            // Navigate to the booking DETAILS screen with the ID
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_status_to_bookingDetails, args);
+            TextView customTitle = new TextView(requireContext());
+            customTitle.setText("Edit Reservation?");
+            customTitle.setTextColor(getResources().getColor(R.color.button_dark_green, null));
+            customTitle.setGravity(Gravity.CENTER);
+            customTitle.setPadding(10, 40, 10, 10);
+            customTitle.setTextSize(22f);
+            customTitle.setTypeface(null, Typeface.BOLD);
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setCustomTitle(customTitle)
+                    .setMessage("Do you want to edit this reservation?")
+                    .setPositiveButton("Edit it", (dialog, which) -> {
+                        Bundle args = new Bundle();
+                        Log.d("EditReservationFlow", "StatusFragment: Putting reservationIdToEdit into bundle: " + currentReservation.getId());
+                        args.putInt("reservationIdToEdit", currentReservation.getId());
+                        NavHostFragment.findNavController(this)
+                                .navigate(R.id.action_status_to_bookingDetails, args);
+                    })
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.ic_edit); // Use an edit icon
+
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
+
+            Button positiveButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(R.color.button_dark_green, null));
+
+            TextView messageTextView = dialog.findViewById(android.R.id.message);
+            if (messageTextView != null) {
+                negativeButton.setTextColor(messageTextView.getCurrentTextColor());
+            }
+
+            final android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            positiveButton.setLayoutParams(params);
+            negativeButton.setLayoutParams(params);
         });
     }
 
