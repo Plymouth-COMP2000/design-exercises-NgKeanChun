@@ -47,9 +47,8 @@ public class NotificationViewModel extends AndroidViewModel {
         notificationRepository.createNotification(notification);
     }
 
-    // --- FIX: Implement the body of this method ---
+
     public void markNotificationAsRead(Notification notification) {
-        // This line was missing. It tells the repository to update the database.
         notificationRepository.markNotificationAsRead(notification);
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/guest_nav_graph"
     app:startDestination="@id/navigation_menu">
 
-    <!-- FIX 1: Define a single, truly global action to the status screen -->
     <action
         android:id="@+id/action_global_to_reservation_status"
         app:destination="@id/reservationStatusFragment" />
@@ -39,7 +39,6 @@
         <action
             android:id="@+id/action_reservations_to_pickTable"
             app:destination="@id/pickTableFragment" />
-        <!-- The old action_reservations_to_status is removed from here -->
         <action
             android:id="@+id/action_reservations_to_bookingDetails"
             app:destination="@id/bookingDetailsFragment" />
@@ -70,6 +69,7 @@
             app:destination="@id/pickTableFragment" />
     </fragment>
 
+    <!-- Destination for the Reservation status screen -->
     <fragment
         android:id="@+id/reservationStatusFragment"
         android:name="com.example.se2_restaurant_management_application.ui.main.fragments.ReservationStatusFragment"

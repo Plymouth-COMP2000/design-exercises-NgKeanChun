@@ -29,10 +29,10 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet; // Import LinkedHashSet
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set; // Import Set
+import java.util.Set;
 
 public class StaffMenuFragment extends Fragment {
 
@@ -87,9 +87,7 @@ public class StaffMenuFragment extends Fragment {
         menuViewModel.getAllMenuItems().observe(getViewLifecycleOwner(), menus -> {
             if (menus != null) {
                 this.originalMenuItems = new ArrayList<>(menus);
-                // FIX 1: When menu items are loaded, update the category chips
                 updateCategoryChips(menus);
-                // Now filter the list
                 filterList();
             }
         });
@@ -132,7 +130,6 @@ public class StaffMenuFragment extends Fragment {
         menuRecyclerView.setAdapter(menuAdapter);
     }
 
-    // FIX 2: NEW METHOD TO DYNAMICALLY CREATE CHIPS
     private void updateCategoryChips(List<Menu> menuItems) {
         categoryChipGroup.clearCheck();
         categoryChipGroup.removeAllViews();

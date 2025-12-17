@@ -39,10 +39,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Change this back to your original layout file
         setContentView(R.layout.activity_forgot_password);
-
-        // Initialize both ViewModels
         forgetPasswordViewModel = new ViewModelProvider(this).get(ForgetPasswordViewModel.class);
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
@@ -98,8 +95,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Searching for account...", Toast.LENGTH_SHORT).show();
 
-        // **THE FIX IS HERE:**
-        // We use a one-time observer to wait for the user list to be loaded.
         accountViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
@@ -110,8 +105,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ForgetPasswordActivity.this, "Could not retrieve user data. Check connection.", Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                // NOW that we are sure the user list is available, we can safely perform the search.
                 forgetPasswordViewModel.findUserByIdentifier(identifier, isPhoneMethod);
             }
         });
@@ -121,21 +114,15 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void observeViewModel() {
-        // This observer will now only fire *after* the handleSearch logic is complete.
         forgetPasswordViewModel.getFoundUserLiveData().observe(this, user -> {
             if (user != null) {
                 // User was found! Navigate to NewPasswordActivity as requested.
                 Toast.makeText(this, "User Found: " + user.getFullName(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ForgetPasswordActivity.this, NewPasswordActivity.class);
-
-                // We pass the full user object so the next screen knows who to update.
                 intent.putExtra("USER_TO_UPDATE", user);
 
                 startActivity(intent);
-
-                // --- THE FIX IS HERE ---
-                // Immediately consume the event so it doesn't trigger again.
                 forgetPasswordViewModel.consumeFoundUserEvent();
 
                 finish(); // Close this screen

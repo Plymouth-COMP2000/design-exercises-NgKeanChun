@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleSelection="true">
-                <!-- Chips will be added in assessment 2 -->
+                <!-- Chips will be added programmatically -->
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>

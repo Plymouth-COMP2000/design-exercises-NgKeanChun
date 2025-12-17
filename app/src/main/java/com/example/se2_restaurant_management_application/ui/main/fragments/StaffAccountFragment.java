@@ -79,14 +79,11 @@ public class StaffAccountFragment extends Fragment {
                                 uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                         if (currentUser != null) {
-                            // THE PERMANENT FIX: DO NOT modify currentUser.
-                            // Pass the ID and the new URI directly to the ViewModel.
                             int userId = currentUser.getId();
                             String imageUriString = uri.toString();
-                            accountViewModel.updateUserImage(userId, imageUriString); // <-- Call the new method
+                            accountViewModel.updateUserImage(userId, imageUriString);
 
                             Toast.makeText(getContext(), "Profile picture saved!", Toast.LENGTH_SHORT).show();
-                            // The UI will update automatically when the LiveData changes.
                         }
                     }
                 });
@@ -153,7 +150,7 @@ public class StaffAccountFragment extends Fragment {
     private void observeUser() {
         accountViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
-                this.currentUser = user; // <-- FIX: Save a reference to the user
+                this.currentUser = user;
                 updateUI(user);
             } else {
                 performLogout();
@@ -167,11 +164,10 @@ public class StaffAccountFragment extends Fragment {
         userFullNameTextView.setText(user.getFullName());
         userEmailTextView.setText(user.getEmail());
 
-        // --- FIX: Logic to load the profile image URI ---
         String imageUriString = user.getImageUri();
         if (imageUriString != null && !imageUriString.isEmpty()) {
             profileImageView.setImageURI(Uri.parse(imageUriString));
-            profileImageView.setImageTintList(null); // Remove any tint to show the full color image
+            profileImageView.setImageTintList(null);
         } else {
             // Fallback to the default placeholder icon
             profileImageView.setImageResource(R.drawable.ic_person);
@@ -188,14 +184,11 @@ public class StaffAccountFragment extends Fragment {
             permission = Manifest.permission.READ_EXTERNAL_STORAGE;
         }
         if (ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED) {
-            // --- FIX: Use the new launcher's launch method ---
             galleryLauncher.launch("image/*");
         } else {
             requestPermissionLauncher.launch(permission);
         }
     }
-
-    // The old launchImagePicker() method has been removed as it's no longer needed.
 
     private void loadSettings() {
         notificationsSwitch.setChecked(settingsManager.getBoolean("staff_notifications_allowed", true));

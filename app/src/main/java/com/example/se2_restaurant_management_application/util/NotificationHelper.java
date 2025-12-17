@@ -24,13 +24,12 @@ public class NotificationHelper {
     private static final String CHANNEL_DESC = "Notifications for reservation updates and confirmations";
 
     private final Context context;
-    // FIX 1: Add a SettingsManager instance
     private final SettingsManager settingsManager;
 
 
     public NotificationHelper(Context context) {
         this.context = context;
-        this.settingsManager = new SettingsManager(context); // Initialize it
+        this.settingsManager = new SettingsManager(context);
         createNotificationChannel();
     }
 
@@ -52,9 +51,7 @@ public class NotificationHelper {
         }
     }
 
-    // FIX 2: The showNotification method now requires a userType
     public void showNotification(String title, String content, int notificationId, String userType) {
-        // --- SETTINGS CHECK ---
         // Determine which master setting to check based on the user type
         String settingKey = "Guest".equalsIgnoreCase(userType)
                 ? "guest_notifications_allowed"
@@ -64,14 +61,12 @@ public class NotificationHelper {
         if (!settingsManager.getBoolean(settingKey, true)) {
             return; // Exit the method immediately, no pop-up will be shown.
         }
-        // --- END OF SETTINGS CHECK ---
 
         // Check for Android 13+ notification permission first
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return; // Exit if permission is not granted
         }
 
-        // --- The rest of the method is the same ---
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("from_notification", true);

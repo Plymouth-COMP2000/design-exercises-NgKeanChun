@@ -2,9 +2,8 @@ package com.example.se2_restaurant_management_application.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-// Implements DisplayableItem to be used in adapters with headers
+// Implement DisplayableItem so it can be used in adapters with headers
 public class Notification implements DisplayableItem {
-
     @SerializedName("id")
     private int id;
 
@@ -18,12 +17,17 @@ public class Notification implements DisplayableItem {
     private String body;
 
     @SerializedName("status")
-    private String status;
+    private String status; // e.g., "pending", "confirmed", "new"
 
     @SerializedName("is_read")
     private boolean isRead;
 
-    // Constructors
+    // --- Helpers ---
+    public void markAsRead() {
+        this.isRead = true;
+    }
+
+    // --- Constructors ---
     public Notification(int id, int userId, String title, String body, String status, boolean isRead) {
         this.id = id;
         this.userId = userId;
@@ -33,66 +37,29 @@ public class Notification implements DisplayableItem {
         this.isRead = isRead;
     }
 
+
     public Notification(int userId, String title, String body, String status) {
         this.userId = userId;
         this.title = title;
         this.body = body;
         this.status = status;
-        this.isRead = false;
+        this.isRead = false; // New notifications are always unread
     }
 
-    // --- Helpers ---
-    public void markAsRead() {
-        this.isRead = true;
-    }
 
     // --- Getters ---
-    public int getId() {
-        return id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
+    public int getId() { return id; }
+    public int getUserId() { return userId; }
+    public String getTitle() { return title; }
+    public String getBody() { return body; }
+    public String getStatus() { return status; }
+    public boolean isRead() { return isRead; }
 
     // --- Setters ---
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
-    }
+    public void setId(int id) { this.id = id; }
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setTitle(String title) { this.title = title; }
+    public void setBody(String body) { this.body = body; }
+    public void setStatus(String status) { this.status = status; }
+    public void setRead(boolean read) { isRead = read; }
 }

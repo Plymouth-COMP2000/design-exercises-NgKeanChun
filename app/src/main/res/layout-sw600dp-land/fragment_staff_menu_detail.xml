@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.45" />
 
-    <!-- Left Column: Image (Fixed, not scrollable) -->
+    <!-- Left Column: Image -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageCard"
         android:layout_width="0dp"
@@ -43,7 +44,7 @@
 
     <!-- Right Column -->
 
-    <!-- Food Name (Fixed at top of right column) -->
+    <!-- Food Name -->
     <TextView
         android:id="@+id/detailFoodNameTextView"
         android:layout_width="0dp"
@@ -57,7 +58,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Delicious Food Name" />
 
-    <!-- Price (Fixed at top of right column) -->
+    <!-- Price -->
     <TextView
         android:id="@+id/detailFoodPriceTextView"
         android:layout_width="wrap_content"

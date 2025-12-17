@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit; // <-- IMPORT THIS
+import java.util.concurrent.TimeUnit;
 
 public class BookingDetailsFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public class BookingDetailsFragment extends Fragment {
     private String selectedTime;
     private int currentPax = 1;
     private int reservationIdToEdit = -1;
-    private long lastSelectedDateMillis; // <-- FIX 1: Variable to hold the last valid date
+    private long lastSelectedDateMillis;
 
     // Define Restaurant Operating Hours
     private static final int OPENING_HOUR = 10; // 10:00 AM
@@ -61,7 +61,7 @@ public class BookingDetailsFragment extends Fragment {
 
         initializeViews(view);
         retrieveArguments();
-        initializeDate(); // Moved up to set dates before listeners
+        initializeDate();
         setupListeners();
     }
 

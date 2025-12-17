@@ -31,7 +31,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private final List<DisplayableItem> items;
     private final Context context;
-    // FIX 1: Add a listener instance
     private final OnNotificationClickListener clickListener;
 
     public NotificationsAdapter(List<DisplayableItem> items, Context context, OnNotificationClickListener listener) {
@@ -68,7 +67,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             NotificationViewHolder notificationHolder = (NotificationViewHolder) holder;
             Notification notification = (Notification) items.get(position);
-            // FIX 2: Pass the click listener to the bind method
             notificationHolder.bind(notification, context, clickListener);
         }
     }
@@ -104,7 +102,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             notificationBody = itemView.findViewById(R.id.notificationBody);
         }
 
-        // FIX 3: Updated bind method
         void bind(Notification notification, Context context, OnNotificationClickListener listener) {
             notificationTitle.setText(notification.getTitle());
             notificationBody.setText(notification.getBody());
@@ -135,16 +132,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             // --- READ/UNREAD VISUALS ---
             if (notification.isRead()) {
-                // Style for read notifications (e.g., greyed out)
                 itemView.setAlpha(0.6f);
                 notificationTitle.setTypeface(null, Typeface.NORMAL);
             } else {
-                // Style for unread notifications
                 itemView.setAlpha(1.0f);
                 notificationTitle.setTypeface(null, Typeface.BOLD);
             }
 
-            // Set the click listener on the entire item view
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onNotificationClick(notification);

@@ -61,7 +61,7 @@ public class ReservationStatusFragment extends Fragment {
         guestPhoneTextView = view.findViewById(R.id.guestPhoneTextView);
 
         // Details
-        dateTextView = view.findViewById(R.id.dateTextView); // Make sure you add IDs to these in your XML
+        dateTextView = view.findViewById(R.id.dateTextView);
         timeTextView = view.findViewById(R.id.timeTextView);
         paxTextView = view.findViewById(R.id.paxTextView);
         tableTextView = view.findViewById(R.id.tableTextView);
@@ -82,7 +82,6 @@ public class ReservationStatusFragment extends Fragment {
             return; // No data to show
         }
 
-        // Use the correct constructor that includes the ID
         currentReservation = new Reservation(
                 args.getInt("reservationId", -1),
                 args.getString("reservationStatus", "N/A"),
@@ -236,8 +235,6 @@ public class ReservationStatusFragment extends Fragment {
             case "confirmed":
                 colorRes = ContextCompat.getColor(requireContext(), R.color.status_confirmed_bg);
                 iconRes = R.drawable.ic_confirmed;
-                // FIX: Allow confirmed reservations to be edited or cancelled by the guest.
-                // Buttons are visible by default, so we no longer need to hide them.
                 break;
             default:
                 // Fallback for any unexpected status

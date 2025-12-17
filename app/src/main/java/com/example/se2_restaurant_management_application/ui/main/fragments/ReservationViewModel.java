@@ -126,10 +126,8 @@ public class ReservationViewModel extends AndroidViewModel {
         loadAllReservations();
     }
 
-    // --- FIX 1: CREATE A NEW METHOD FOR STAFF-INITIATED UPDATES ---
     /**
-     * This new method is for STAFF-initiated updates (confirming or cancelling).
-     * It correctly creates notifications for the GUEST.
+     * This method is for STAFF-initiated updates (confirming or cancelling).
      */
     public void updateReservationFromStaff(Reservation reservation) {
         // Step 1: Update the reservation in the database.

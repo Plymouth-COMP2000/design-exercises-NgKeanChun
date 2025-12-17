@@ -147,7 +147,6 @@ public class StaffNotificationsFragment extends Fragment implements Notification
             notificationViewModel.fetchNotifications(-1);
         }
 
-        // --- FIX 1: Find the target reservation for ANY notification type ---
         Reservation targetReservation = findReservationForNotification(notification);
 
         if (targetReservation != null) {
@@ -163,12 +162,8 @@ public class StaffNotificationsFragment extends Fragment implements Notification
             return null;
         }
 
-        // This is a more robust way to find a matching reservation.
-        // It iterates through all known reservations and checks if its unique dateTime string
-        // is present anywhere inside the notification body.
         for (Reservation res : allReservations) {
             if (body.contains(res.getDateTime())) {
-                // As soon as we find a reservation whose date/time is in the body, we have our match.
                 return res;
             }
         }

@@ -57,16 +57,12 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         setupRecyclerView();
         observeData();
 
-        // FIX: Get the logged-in user from the ViewModel, not the SessionManager
         User currentUser = accountViewModel.getLoggedInUser().getValue();
         if (currentUser != null) {
             currentUserId = currentUser.getId();
             notificationViewModel.fetchNotifications(currentUserId);
         } else {
-            // This case might happen if the user's session is invalid.
-            // Navigating back to login is a safe fallback.
             Toast.makeText(getContext(), "User session expired. Please log in again.", Toast.LENGTH_LONG).show();
-            // Consider adding navigation back to login screen if necessary
         }
     }
 
@@ -158,10 +154,7 @@ public class GuestNotificationFragment extends Fragment implements Notifications
             return null;
         }
 
-        // Same robust logic: check if the reservation's unique dateTime string
-        // is contained within the notification body.
         for (Reservation res : allReservations) {
-            // Add the check for the current user ID
             if (res.getUserId() == currentUserId && body.contains(res.getDateTime())) {
                 return res;
             }

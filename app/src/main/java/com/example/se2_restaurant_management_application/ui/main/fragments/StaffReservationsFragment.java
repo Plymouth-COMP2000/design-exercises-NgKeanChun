@@ -59,7 +59,6 @@ public class StaffReservationsFragment extends Fragment implements ReservationsA
 
         ImageButton notificationButton = view.findViewById(R.id.notificationButton);
         notificationButton.setOnClickListener(v ->
-                // FIX: Use the new, correct action ID
                 NavHostFragment.findNavController(this).navigate(R.id.action_staff_reservations_to_notifications)
         );
     }
@@ -159,7 +158,6 @@ public class StaffReservationsFragment extends Fragment implements ReservationsA
             args.putString("guestPhone", "N/A");
         }
 
-        // IMPORTANT: We will create this action and destination in the next steps
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_staff_reservations_to_staff_status, args);
     }

@@ -63,10 +63,6 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             menuHolder.itemName.setText(menuItem.getName());
             menuHolder.itemPrice.setText(String.format(Locale.US, "RM%.2f", menuItem.getPrice()));
-
-            // --- THE FIX IS HERE ---
-            // This is the new, crucial logic for loading the image.
-
             // 1. Check if an image URI string exists for this menu item.
             String imageUriString = menuItem.getImageUri();
 
@@ -78,12 +74,9 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 // 2. If NO URI exists, fall back to the old placeholder drawable ID.
                 menuHolder.itemImage.setImageResource(menuItem.getImageDrawableId());
-                // Since this is a placeholder, we might want to re-apply the tint if needed,
-                // but for now, setting it to null is safer to avoid green placeholders.
                 menuHolder.itemImage.setImageTintList(null);
             }
 
-            // The click listener remains the same.
             menuHolder.itemView.setOnClickListener(v -> listener.onItemClick(menuItem));
 
         } else if (holder instanceof HeaderViewHolder) {
@@ -108,16 +101,13 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final TextView itemName;
         private final TextView itemPrice;
 
-        // The listener is no longer needed in the constructor
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.foodImageView);
             itemName = itemView.findViewById(R.id.foodNameTextView);
             itemPrice = itemView.findViewById(R.id.foodPriceTextView);
-            // The redundant listener that was here has been REMOVED.
         }
 
-        // The listener is passed into bind() where it has access to the specific menuItem
         public void bind(final Menu menuItem, final OnItemClickListener listener) {
             itemName.setText(menuItem.getName());
             itemPrice.setText(String.format(Locale.US, "$%.2f", menuItem.getPrice()));
@@ -128,7 +118,6 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemImage.setImageResource(R.drawable.ic_launcher_foreground); // A default image
             }
 
-            // This is the correct place to set the listener
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(menuItem);
@@ -137,7 +126,6 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    // ViewHolder for the category header (list_header_category.xml)
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
         private final TextView headerTextView;
 

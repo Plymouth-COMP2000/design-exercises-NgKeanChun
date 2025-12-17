@@ -16,18 +16,12 @@ public class SessionManager {
 
     /**
      * Clears all session data. This will be called on logout
-     * or whenever we need to ensure the user is logged out.
      */
     public void logoutUser() {
         editor.clear();
         editor.commit();
     }
 
-    /**
-     * This method is no longer needed for automatic login,
-     * but we can keep a simple version of it to track if a user
-     * is active within a single app session (before termination).
-     */
     public void createLoginSession() {
         editor.putBoolean("isLoggedIn", true);
         editor.commit();

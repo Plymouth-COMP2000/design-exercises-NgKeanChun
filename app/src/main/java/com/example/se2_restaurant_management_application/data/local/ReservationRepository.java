@@ -17,6 +17,7 @@ public class ReservationRepository {
 
     public ReservationRepository(Application application) {
         dbHelper = new DatabaseHelper(application);
+        initializeData();
     }
 
     public void getAllReservations(final OnReservationsReadyCallback callback) {
@@ -73,6 +74,22 @@ public class ReservationRepository {
 
             db.update(DatabaseHelper.TABLE_RESERVATIONS, values, selection, selectionArgs);
         });
+    }
+
+    private void initializeData() {
+        databaseWriteExecutor.execute(() -> {
+        });
+    }
+
+    private int getCount() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + DatabaseHelper.TABLE_RESERVATIONS, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
     }
 
     public interface OnReservationsReadyCallback {

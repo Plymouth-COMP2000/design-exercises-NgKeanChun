@@ -23,13 +23,10 @@ import java.io.Serializable;
 public class NewPasswordActivity extends AppCompatActivity {
 
     private NewPasswordViewModel newPasswordViewModel;
-
     private TextInputEditText newPasswordEditText;
     private TextInputEditText confirmPasswordEditText;
     private TextView reqLength, reqNumber, reqSpecialChar;
     private Button saveButton;
-
-    // FIX 1: We now hold the entire user object
     private User userToUpdate = null;
 
     private boolean isLengthMet = false, isNumberMet = false, isSpecialCharMet = false;
@@ -39,7 +36,6 @@ public class NewPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
 
-        // FIX 2: Retrieve the full User object from the intent
         if (getIntent().hasExtra("USER_TO_UPDATE")) {
             userToUpdate = (User) getIntent().getSerializableExtra("USER_TO_UPDATE");
         }
@@ -89,7 +85,6 @@ public class NewPasswordActivity extends AppCompatActivity {
             return;
         }
 
-        // FIX 3: Update the password on the user object we already have
         userToUpdate.setPassword(newPassword);
 
         Log.d("UpdateUser", "User object being sent: " +
@@ -103,7 +98,6 @@ public class NewPasswordActivity extends AppCompatActivity {
                 ", usertype=" + userToUpdate.getUserType()
         );
 
-        // FIX 4: Send the complete, modified user object to the ViewModel for updating
         newPasswordViewModel.updateUserPassword(userToUpdate);
 
         Toast.makeText(this, "Updating password...", Toast.LENGTH_SHORT).show();

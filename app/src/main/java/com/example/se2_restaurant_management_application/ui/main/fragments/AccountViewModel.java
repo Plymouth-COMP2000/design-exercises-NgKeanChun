@@ -85,8 +85,6 @@ public class AccountViewModel extends AndroidViewModel {
         ((MutableLiveData<String>) userRepository.getDeleteUserErrorLiveData()).postValue(null);
     }
 
-    // --- THIS IS THE FIX ---
-    // The ViewModel simply calls the repository's deleteUser method.
     public void deleteUser(String username) {
         userRepository.deleteUser(username);
     }

@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class MenuDetailFragment extends Fragment {
 
-    // --- NEW: Declare UI components ---
+    // --- Declare UI components ---
     private ImageView detailFoodImageView;
     private TextView detailFoodNameTextView;
     private TextView detailFoodPriceTextView;
@@ -39,14 +39,14 @@ public class MenuDetailFragment extends Fragment {
         Button backButton = view.findViewById(R.id.BackButton);
         backButton.setOnClickListener(v -> NavHostFragment.findNavController(MenuDetailFragment.this).popBackStack());
 
-        // --- NEW: Find all the other UI components ---
+        // --- Find all the other UI components ---
         detailFoodImageView = view.findViewById(R.id.detailFoodImageView);
         detailFoodNameTextView = view.findViewById(R.id.detailFoodNameTextView);
         detailFoodPriceTextView = view.findViewById(R.id.detailFoodPriceTextView);
         detailDescriptionTextView = view.findViewById(R.id.detailDescriptionTextView);
         categoryChip = view.findViewById(R.id.categoryChip);
 
-        // --- NEW: Get the arguments passed from MenuFragment ---
+        // --- Get the arguments passed from MenuFragment ---
         Bundle args = getArguments();
         if (args != null) {
             String name = args.getString("itemName", "Not Found");

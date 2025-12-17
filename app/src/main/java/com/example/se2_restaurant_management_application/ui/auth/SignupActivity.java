@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.se2_restaurant_management_application.R;
-// FIX 1: Import the necessary ViewModels and the User model
 import com.example.se2_restaurant_management_application.data.models.User;
 import com.example.se2_restaurant_management_application.ui.main.fragments.AccountViewModel;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,7 +23,7 @@ import java.util.List;
 public class SignupActivity extends AppCompatActivity {
 
     private SignupViewModel signupViewModel;
-    // FIX 2: Add a declaration for the AccountViewModel
+
     private AccountViewModel accountViewModel;
 
     // Input Fields
@@ -52,7 +51,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // FIX 3: Initialize both ViewModels
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
@@ -78,7 +76,6 @@ public class SignupActivity extends AppCompatActivity {
         reqSpecialChar = findViewById(R.id.passwordRequirementSpecialChar);
     }
 
-    // NEW handleSignup()
     private void handleSignup() {
         String username = usernameEditText.getText().toString().trim();
         String firstName = firstNameEditText.getText().toString().trim();
@@ -100,15 +97,10 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         // --- Asynchronous Uniqueness Check ---
-        // FIX: Show a progress message
         Toast.makeText(this, "Checking user details...", Toast.LENGTH_SHORT).show();
-
-        // We observe the user list ONE TIME to get the fresh data.
         accountViewModel.getAllUsers().observe(this, new androidx.lifecycle.Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                // This block runs once the data is available. We must remove the observer
-                // to prevent it from running again accidentally.
                 accountViewModel.getAllUsers().removeObserver(this);
 
                 if (users == null) {
@@ -116,7 +108,6 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Now, with the fresh list, perform the uniqueness check.
                 boolean isUnique = true;
                 for (User existingUser : users) {
                     if (existingUser.getUsername().equalsIgnoreCase(username)) {

@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            // Define your top-level destinations where the navigation should be visible.
-            // These IDs must match the fragment IDs in your nav graphs.
             Set<Integer> topLevelDestinations = new HashSet<>();
             topLevelDestinations.add(R.id.navigation_menu);
             topLevelDestinations.add(R.id.navigation_reservations);
@@ -91,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (navigationView != null) { // Handle visibility for Landscape layout
                 NavigationUI.setupWithNavController(navigationView, navController);
 
-                // --- THIS IS THE FIX ---
-                // Add a listener to show/hide the side navigation view.
+                // listener to show/hide the side navigation view.
                 navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                     if (topLevelDestinations.contains(destination.getId())) {
                         navigationView.setVisibility(View.VISIBLE);
@@ -100,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                         navigationView.setVisibility(View.GONE);
                     }
                 });
-                // --- END OF FIX ---
             }
         }
 

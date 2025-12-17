@@ -19,7 +19,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
-import com.example.se2_restaurant_management_application.data.models.User; // <-- ADD THIS IMPORT
+import com.example.se2_restaurant_management_application.data.models.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
     // --- ViewModels and Data ---
     private String selectedDateTime = "";
     private ReservationViewModel reservationViewModel;
-    private AccountViewModel accountViewModel; // <-- ADD THIS
+    private AccountViewModel accountViewModel;
     private List<Reservation> allReservations = new ArrayList<>();
     private int reservationIdToEdit = -1;
 
@@ -71,10 +71,8 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
     }
 
     // --- Initialization ---
-
     private void initializeUiComponents(View view) {
         // Map all table TextViews by their ID for easy access
-        // This works across all your different layout files (portrait, landscape, tablet)
         tableViewsMap.put(R.id.table_1, view.findViewById(R.id.table_1));
         tableViewsMap.put(R.id.table_2, view.findViewById(R.id.table_2));
         tableViewsMap.put(R.id.table_3, view.findViewById(R.id.table_3));
@@ -82,7 +80,6 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
         tableViewsMap.put(R.id.table_5, view.findViewById(R.id.table_5));
         tableViewsMap.put(R.id.table_6, view.findViewById(R.id.table_6));
         tableViewsMap.put(R.id.table_7, view.findViewById(R.id.table_7));
-        // If you add more tables like table_8, add them here too.
 
         // Find buttons
         reserveTableButton = view.findViewById(R.id.reserveTableButton);
@@ -118,12 +115,8 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
     }
 
     // --- Core Logic for Table Availability ---
-
     private void updateAllTableStates() {
         List<Integer> occupiedTableNumbers = new ArrayList<>();
-
-        // We only want to check reservations on the SAME DAY
-        // Get just the date part (e.g., "Sat, Dec 25, 2025") from our full dateTime string
         String selectedDatePart = "";
         if (selectedDateTime != null && selectedDateTime.contains(",")) {
             selectedDatePart = selectedDateTime.substring(0, selectedDateTime.lastIndexOf(',')).trim();
@@ -141,14 +134,12 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
             if (("Pending".equalsIgnoreCase(status) || "Confirmed".equalsIgnoreCase(status))
                     && selectedDatePart.equalsIgnoreCase(reservationDatePart)) {
 
-                // Don't mark as occupied if we're editing this exact reservation
                 if (reservation.getId() != reservationIdToEdit) {
                     occupiedTableNumbers.add(reservation.getTableNumber());
                 }
             }
         }
 
-        // The rest of the method (the for-loop that calls setTableState) remains exactly the same.
         for (Map.Entry<Integer, TextView> entry : tableViewsMap.entrySet()) {
             TextView table = entry.getValue();
             if(table == null) continue; // Safety check in case a layout doesn't have all tables
@@ -188,10 +179,8 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
     }
 
     // --- OnClickListener Implementation ---
-
     @Override
     public void onClick(View v) {
-        // This handles clicks for all available tables
 
         // If a table was already selected, reset its appearance to "available"
         if (selectedTable != null) {
@@ -216,7 +205,6 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
     }
 
     // --- Button Listener Setup ---
-
     private void setupReserveButtonListener() {
         reserveTableButton.setOnClickListener(v -> {
             if (selectedTable == null) {
@@ -224,7 +212,6 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
                 return;
             }
 
-            // FIX 1: Get the current user ID
             User currentUser = accountViewModel.getLoggedInUser().getValue();
             if (currentUser == null) {
                 Toast.makeText(getContext(), "Error: User not logged in.", Toast.LENGTH_SHORT).show();
@@ -238,8 +225,7 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
             int pax = getArguments() != null ? getArguments().getInt("selectedPax", 1) : 1;
 
             if (reservationIdToEdit != -1) {
-                // --- EDIT MODE ---
-                // FIX 2: Add the userId to the constructor call
+                // Add the userId to the constructor call
                 Reservation updatedReservation = new Reservation(
                         reservationIdToEdit,
                         "Pending",
@@ -253,8 +239,7 @@ public class PickTableFragment extends Fragment implements View.OnClickListener 
                 Toast.makeText(getContext(), "Reservation Updated!", Toast.LENGTH_SHORT).show();
 
             } else {
-                // --- ADD NEW MODE ---
-                // FIX 3: Add the userId to the constructor call
+                // Add the userId to the constructor call
                 Reservation newBooking = new Reservation(
                         "Pending",
                         selectedDateTime,

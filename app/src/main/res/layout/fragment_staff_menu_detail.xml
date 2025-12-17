@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.fragments.StaffMenuDetailFragment">
 
-    <!-- Bottom Buttons (Placed first to be at the bottom layer) -->
+    <!-- Bottom Buttons -->
     <LinearLayout
         android:id="@+id/buttonsLayout"
         android:layout_width="0dp"

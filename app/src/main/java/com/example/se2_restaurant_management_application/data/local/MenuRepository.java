@@ -19,10 +19,12 @@ public class MenuRepository {
 
     private final DatabaseHelper dbHelper;
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
     private final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
 
     public MenuRepository(Application application) {
         dbHelper = new DatabaseHelper(application);
+        // Populate database with initial data if it's empty
         initializeData();
     }
 
@@ -30,7 +32,6 @@ public class MenuRepository {
         databaseWriteExecutor.execute(() -> {
             List<Menu> menuList = new ArrayList<>();
             SQLiteDatabase db = dbHelper.getReadableDatabase();
-
             Cursor cursor = db.query(DatabaseHelper.TABLE_MENU_ITEMS,
                     null, null, null, null, null, DatabaseHelper.COLUMN_MENU_CATEGORY + " ASC");
 
@@ -48,6 +49,7 @@ public class MenuRepository {
                 } while (cursor.moveToNext());
             }
             cursor.close();
+            // Pass the result back on the main thread or via the callback
             callback.onDataReady(menuList);
         });
     }
@@ -92,6 +94,8 @@ public class MenuRepository {
             String[] selectionArgs = { String.valueOf(menu.getId()) };
             db.delete(DatabaseHelper.TABLE_MENU_ITEMS, selection, selectionArgs);
 
+            // After the delete operation is complete, run the onFinished action
+            // on the main UI thread.
             if (onFinished != null) {
                 mainThreadHandler.post(onFinished);
             }
@@ -139,6 +143,7 @@ public class MenuRepository {
 
     private List<Menu> createDummyData() {
         List<Menu> items = new ArrayList<>();
+        // Use the new drawable resources for each item
         items.add(new Menu("Spring Rolls", "Crispy fried spring rolls with a vegetable filling.", 5.99, R.drawable.food_spring_rolls, "Appetizers"));
         items.add(new Menu("Garlic Bread", "Toasted bread with garlic, butter, and herbs.", 4.50, R.drawable.food_garlic_bread, "Appetizers"));
         items.add(new Menu("Classic Cheeseburger", "A juicy beef patty with melted cheese, lettuce, and tomato.", 12.99, R.drawable.food_cheeseburger, "Burgers"));
@@ -148,6 +153,7 @@ public class MenuRepository {
         return items;
     }
 
+    // Callback interface to pass data from background thread to UI thread
     public interface OnDataReadyCallback {
         void onDataReady(List<Menu> menuList);
     }

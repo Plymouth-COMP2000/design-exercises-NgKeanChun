@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     android:padding="16dp"
     tools:context=".ui.auth.LoginActivity">
 
-    <!-- The "Sign Up" section needs an ID to constrain other views to it. -->
+
     <LinearLayout
         android:id="@+id/signUpLayout"
         android:layout_width="wrap_content"
@@ -49,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/usernameInputLayout"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <!-- FIX 1: Changed ID from phoneNumberInputLayout to usernameInputLayout -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -67,7 +68,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- FIX 2: Changed ID, hint, and inputType -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usernameEditText"
             android:layout_width="match_parent"
@@ -77,7 +77,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- FIX 3: Updated top constraint to point to usernameInputLayout -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

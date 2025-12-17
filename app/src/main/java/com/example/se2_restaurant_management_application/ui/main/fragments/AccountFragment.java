@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup; // <-- FIX: IMPORT ADDED
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -50,7 +50,7 @@ public class AccountFragment extends Fragment {
     private ImageButton logoutButton;
     private ImageView editProfileIcon, profileImageView;
     private MaterialSwitch notificationsSwitch, reservationsConfirmedSwitch, bookingChangesSwitch;
-    private Button deleteAccountButton; // New delete button
+    private Button deleteAccountButton;
 
     private ActivityResultLauncher<String> galleryLauncher;
     private final ActivityResultLauncher<String> requestPermissionLauncher =
@@ -97,7 +97,7 @@ public class AccountFragment extends Fragment {
         initializeViews(view);
         setupListeners(view);
         observeUser();
-        observeDeleteEvents(); // Observe delete account events
+        observeDeleteEvents();
         loadSettings();
         setupSwitchListeners();
 
@@ -132,7 +132,7 @@ public class AccountFragment extends Fragment {
     private void setupListeners(View view) {
         editProfileIcon.setOnClickListener(v -> handleImagePick());
         logoutButton.setOnClickListener(v -> logoutUser());
-        deleteAccountButton.setOnClickListener(v -> showDeleteConfirmationDialog()); // Set listener for delete button
+        deleteAccountButton.setOnClickListener(v -> showDeleteConfirmationDialog());
 
         ImageButton notificationButton = view.findViewById(R.id.notificationButton);
         notificationButton.setOnClickListener(v ->
@@ -178,6 +178,42 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    private void showDeleteConfirmationDialog() {
+        TextView titleTextView = new TextView(requireContext());
+        titleTextView.setText("Delete Account");
+        titleTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
+        titleTextView.setTextSize(20f);
+        titleTextView.setPadding(
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // left
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // top
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // right
+                0  // bottom
+        );
+
+        TextView messageTextView = new TextView(requireContext());
+        messageTextView.setText("Are you sure you want to permanently delete your account? This action cannot be undone.");
+        messageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
+        messageTextView.setTextSize(16f);
+        messageTextView.setPadding(
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // left
+                0, // top
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin), // right
+                getResources().getDimensionPixelSize(R.dimen.dialog_margin)  // bottom
+        );
+
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setCustomTitle(titleTextView)
+                .setView(messageTextView)
+                .setPositiveButton("Delete it", (dialogInterface, which) -> showPasswordVerificationDialog())
+                .setNegativeButton("No", null)
+                .show();
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        if (positiveButton != null) {
+            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_cancelled_bg));
+        }
+
+    }
+
     private void observeDeleteEvents() {
         accountViewModel.getDeleteUserSuccessLiveData().observe(getViewLifecycleOwner(), message -> {
             if (message != null) {
@@ -195,16 +231,6 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void showDeleteConfirmationDialog() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Delete Account")
-                .setMessage("Are you sure you want to permanently delete your account? This action cannot be undone.")
-                .setPositiveButton("Yes, Delete", (dialog, which) -> showPasswordVerificationDialog())
-                .setNegativeButton("No", null)
-                .setIcon(R.drawable.ic_cancel)
-                .show();
-    }
-
     private void showPasswordVerificationDialog() {
         if (getContext() == null || currentUser == null) return;
 
@@ -212,7 +238,6 @@ public class AccountFragment extends Fragment {
         passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordInput.setHint("Enter your password");
 
-        // Use the imported classes
         FrameLayout container = new FrameLayout(getContext());
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);

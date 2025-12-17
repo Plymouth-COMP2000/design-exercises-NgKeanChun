@@ -37,7 +37,6 @@ public class StaffReservationStatusFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Use the renamed layout file
         return inflater.inflate(R.layout.fragment_staff_reservation_status, container, false);
     }
 
@@ -118,7 +117,6 @@ public class StaffReservationStatusFragment extends Fragment {
                 message = "Are you sure you want to cancel this confirmed reservation?";
             }
 
-            // --- FIX: Create and show a confirmation dialog ---
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
                     .setTitle(title)
                     .setMessage(message)
@@ -131,16 +129,13 @@ public class StaffReservationStatusFragment extends Fragment {
         });
 
         confirmButton.setOnClickListener(v -> {
-            // The confirm button does not need a dialog, its action is less destructive.
             handleReservationUpdate("Confirmed", "Reservation Confirmed");
         });
     }
 
-    // This helper method remains the same, but it's now called from the dialog
     private void handleReservationUpdate(String newStatus, String toastMessage) {
         if (currentReservation != null) {
             currentReservation.setStatus(newStatus);
-            // FIX 2: Call the new, specific method for staff actions
             reservationViewModel.updateReservationFromStaff(currentReservation);
             Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT).show();
             NavHostFragment.findNavController(this).popBackStack();
@@ -152,7 +147,7 @@ public class StaffReservationStatusFragment extends Fragment {
         int colorRes;
         int iconRes;
 
-        // By default, hide all action buttons. We will show them only in specific cases.
+        // By default, hide all action buttons.
         denyButton.setVisibility(View.GONE);
         confirmButton.setVisibility(View.GONE);
 
@@ -160,7 +155,6 @@ public class StaffReservationStatusFragment extends Fragment {
             case "pending":
                 colorRes = ContextCompat.getColor(requireContext(), R.color.status_pending_bg);
                 iconRes = R.drawable.ic_pending;
-                // Staff can act on pending reservations, so show both buttons.
                 denyButton.setVisibility(View.VISIBLE);
                 confirmButton.setVisibility(View.VISIBLE);
                 denyButton.setText("Deny"); // Set text for clarity
@@ -169,10 +163,8 @@ public class StaffReservationStatusFragment extends Fragment {
             case "confirmed":
                 colorRes = ContextCompat.getColor(requireContext(), R.color.status_confirmed_bg);
                 iconRes = R.drawable.ic_confirmed;
-                // FIX: Staff can cancel a confirmed reservation.
-                // Show only the deny/cancel button.
                 denyButton.setVisibility(View.VISIBLE);
-                denyButton.setText("Cancel"); // Change button text to "Cancel" for better UX
+                denyButton.setText("Cancel");
                 confirmButton.setVisibility(View.GONE);
                 break;
 

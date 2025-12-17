@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -70,8 +71,7 @@
         app:layout_constraintTop_toBottomOf="@id/detailFoodNameTextView"
         tools:text="RM12.99" />
 
-    <!-- Scrollable content for the right column, constrained to make space for the button at the bottom -->
-    <ScrollView
+      <ScrollView
         android:id="@+id/right_column_scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -139,10 +139,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!--
-        THIS IS THE FIX:
-        The "Back to Menu" button is now outside the columns and centered at the bottom.
-    -->
+
     <Button
         android:id="@+id/BackButton"
         android:layout_width="0dp"

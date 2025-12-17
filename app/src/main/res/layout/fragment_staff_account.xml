@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     android:background="@color/app_background_light_green"
     tools:context=".ui.main.fragments.StaffAccountFragment">
 
-    <!-- Header Section (No changes here) -->
+    <!-- Header Section -->
     <ImageButton
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
@@ -89,7 +90,6 @@
                 android:layout_marginTop="-28dp"
                 android:layout_marginStart="40dp"/>
 
-            <!-- THIS NOW DISPLAYS USERNAME -->
             <TextView
                 android:id="@+id/userNameTextView"
                 android:layout_width="wrap_content"
@@ -100,7 +100,6 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <!-- THIS REMAINS THE PHONE NUMBER -->
             <TextView
                 android:id="@+id/userPhoneTextView"
                 android:layout_width="wrap_content"
@@ -110,7 +109,6 @@
                 android:textColor="#595959"
                 android:textSize="16sp" />
 
-            <!-- FIX 1: ADDED NEW CARD FOR FULL NAME AND EMAIL -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/personalInfoCard"
                 android:layout_width="match_parent"

@@ -1,13 +1,15 @@
 package com.example.se2_restaurant_management_application.data.models;
 
-public class Reservation {private int id;
+public class Reservation {
+
+    private int id;
     private String status;
     private String dateTime;
     private int numberOfGuests;
     private int tableNumber;
     private int userId;
 
-    // Constructors
+
     public Reservation(int id, String status, String dateTime, int numberOfGuests, int tableNumber, int userId) {
         this.id = id;
         this.status = status;
@@ -26,6 +28,13 @@ public class Reservation {private int id;
     }
 
     // --- Getters and Setters ---
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;
@@ -65,13 +74,5 @@ public class Reservation {private int id;
 
     public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

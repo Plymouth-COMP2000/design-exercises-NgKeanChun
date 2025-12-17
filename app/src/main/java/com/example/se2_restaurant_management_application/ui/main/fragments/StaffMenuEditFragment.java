@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView; // Import ImageView
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher; // Import ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts; // Import ActivityResultContracts
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,10 +31,10 @@ import java.util.Locale;
 
 public class StaffMenuEditFragment extends Fragment {
 
-    // --- NEW --- Declare ImageView and ActivityResultLauncher
+    // Declare ImageView and ActivityResultLauncher
     private ImageView foodImageView;
     private ActivityResultLauncher<String> galleryLauncher;
-    private Uri selectedImageUri = null; // To hold the selected image URI
+    private Uri selectedImageUri = null;
 
     private EditText itemNameEditText;
     private EditText pricingEditText;
@@ -55,8 +55,6 @@ public class StaffMenuEditFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // --- NEW --- Initialize the gallery launcher. This must be done in onCreate or onAttach.
-        // It prepares to receive a result from the gallery.
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
@@ -65,10 +63,8 @@ public class StaffMenuEditFragment extends Fragment {
                         // Display the selected image in our ImageView.
                         foodImageView.setImageURI(selectedImageUri);
 
-                        // --- THE FIX IS HERE ---
                         // Remove any background tint to show the full-color image.
                         foodImageView.setImageTintList(null);
-
                         // Persist permission to access this URI across device reboots
                         requireContext().getContentResolver().takePersistableUriPermission(
                                 uri,
@@ -91,7 +87,7 @@ public class StaffMenuEditFragment extends Fragment {
         menuViewModel = new ViewModelProvider(requireActivity()).get(MenuViewModel.class);
 
         // Find all views, including the new ImageView
-        foodImageView = view.findViewById(R.id.foodImageView); // --- NEW ---
+        foodImageView = view.findViewById(R.id.foodImageView);
         itemNameEditText = view.findViewById(R.id.foodNameEditText);
         pricingEditText = view.findViewById(R.id.pricingEditText);
         descriptionEditText = view.findViewById(R.id.descriptionEditText);
@@ -101,7 +97,7 @@ public class StaffMenuEditFragment extends Fragment {
         titleTextView = view.findViewById(R.id.editMenuTitle);
         categoryChipGroup = view.findViewById(R.id.categoryChipGroup);
 
-        // --- NEW --- Set a click listener on the ImageView to open the gallery
+        // Set a click listener on the ImageView to open the gallery
         foodImageView.setOnClickListener(v -> {
             // Launch the gallery to pick an image.
             galleryLauncher.launch("image/*");
@@ -109,12 +105,8 @@ public class StaffMenuEditFragment extends Fragment {
 
         menuViewModel.getMenuItemDeletedEvent().observe(getViewLifecycleOwner(), isDeleted -> {
             if (isDeleted != null && isDeleted) {
-                // The event is here! The item is deleted from the DB.
-                // Now it's safe to navigate.
                 Toast.makeText(getContext(), "Item Deleted!", Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(this).navigate(R.id.action_edit_to_staff_menu);
-
-                // Consume the event so it doesn't fire again.
                 menuViewModel.consumeMenuItemDeletedEvent();
             }
         });
@@ -160,12 +152,9 @@ public class StaffMenuEditFragment extends Fragment {
             descriptionEditText.setText(currentMenuItem.getDescription());
 
             // Load the saved image if it exists
-            if (currentMenuItem.getImageUri() != null && !currentMenuItem.getImageUri().isEmpty()) { // Added safety check
+            if (currentMenuItem.getImageUri() != null && !currentMenuItem.getImageUri().isEmpty()) {
                 selectedImageUri = Uri.parse(currentMenuItem.getImageUri());
                 foodImageView.setImageURI(selectedImageUri);
-
-                // --- THIS IS THE FIX ---
-                // Remove any background tint when loading an existing image.
                 foodImageView.setImageTintList(null);
 
             } else {
@@ -230,12 +219,10 @@ public class StaffMenuEditFragment extends Fragment {
         int imageId = R.drawable.ic_launcher_foreground;
 
         if (currentMenuItem != null) {
-            // UPDATE EXISTING ITEM
             currentMenuItem.setName(name);
             currentMenuItem.setPrice(price);
             currentMenuItem.setDescription(description);
             currentMenuItem.setCategory(category);
-            // --- NEW --- Save the URI as a string
             if (selectedImageUri != null) {
                 currentMenuItem.setImageUri(selectedImageUri.toString());
             }
@@ -244,7 +231,6 @@ public class StaffMenuEditFragment extends Fragment {
         } else {
             // INSERT NEW ITEM
             Menu newItem = new Menu(name, description, price, imageId, category);
-            // --- NEW --- Save the URI as a string
             if (selectedImageUri != null) {
                 newItem.setImageUri(selectedImageUri.toString());
             }
@@ -256,15 +242,11 @@ public class StaffMenuEditFragment extends Fragment {
 
     private void deleteItem() {
         if (currentMenuItem != null) {
-            // --- THIS IS THE FIX ---
             // Create and show an AlertDialog for confirmation.
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
                     .setTitle("Delete Menu Item")
                     .setMessage("Are you sure you want to delete this item? This action cannot be undone.")
-                    .setPositiveButton("Yes, Delete", (dialog, which) -> {
-                        // User confirmed. Proceed with the deletion.
-                        // This tells the ViewModel to start deleting. The observer we already created
-                        // will handle the Toast and navigation back to the list.
+                    .setPositiveButton("Delete it", (dialog, which) -> {
                         menuViewModel.delete(currentMenuItem);
                     })
                     .setNegativeButton("No", null)

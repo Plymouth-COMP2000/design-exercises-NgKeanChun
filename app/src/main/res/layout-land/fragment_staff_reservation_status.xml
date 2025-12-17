@@ -9,7 +9,6 @@
     tools:context=".ui.main.fragments.StaffReservationStatusFragment">
 
     <!-- Header -->
-    <!-- Header -->
     <ImageButton
         android:id="@+id/BackButton"
         android:layout_width="wrap_content"

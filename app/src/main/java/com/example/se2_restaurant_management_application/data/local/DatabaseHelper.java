@@ -9,13 +9,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "restaurant.db";
     private static final int DATABASE_VERSION = 5;
 
-    // --- User Table ---
+    // --- User Table Columns ---
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_USER_IMAGE_URI = "image_uri";
 
 
-    // --- Menu Table ---
+    // --- Menu Table Columns ---
     public static final String TABLE_MENU_ITEMS = "menu_items";
     public static final String COLUMN_MENU_ID = "id";
     public static final String COLUMN_MENU_NAME = "name";
@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MENU_IMAGE_URI = "imageUri";
     public static final String COLUMN_MENU_IMAGE_DRAWABLE_ID = "imageDrawableId";
 
-    // --- Reservation Table ---
+    // --- Reservation Table Columns ---
     public static final String TABLE_RESERVATIONS = "reservations";
     public static final String COLUMN_RESERVATION_ID = "id";
     public static final String COLUMN_RESERVATION_STATUS = "status";
@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESERVATION_GUESTS = "numberOfGuests";
     public static final String COLUMN_RESERVATION_TABLE_NUM = "tableNumber";
 
-    // --- Notification Table ---
+    // --- Notification Table Column ---
     public static final String TABLE_NOTIFICATIONS = "notifications";
     public static final String COLUMN_NOTIFICATION_ID = "id";
     public static final String COLUMN_NOTIFICATION_USER_ID = "user_id";
@@ -44,12 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // --- SQL Create Statements ---
-    private static final String TABLE_CREATE_USERS =
-            "CREATE TABLE " + TABLE_USERS + " (" +
-                    COLUMN_USER_ID + " INTEGER PRIMARY KEY, " +
-                    COLUMN_USER_IMAGE_URI + " TEXT" +
-                    ");";
-
     private static final String TABLE_CREATE_MENU_ITEMS =
             "CREATE TABLE " + TABLE_MENU_ITEMS + " (" +
                     COLUMN_MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -71,6 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_USER_ID + " INTEGER" +
                     ")";
 
+
     private static final String TABLE_CREATE_NOTIFICATIONS =
             "CREATE TABLE " + TABLE_NOTIFICATIONS + " (" +
                     COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -78,8 +73,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_NOTIFICATION_TITLE + " TEXT, " +
                     COLUMN_NOTIFICATION_BODY + " TEXT, " +
                     COLUMN_NOTIFICATION_STATUS + " TEXT, " +
-                    COLUMN_NOTIFICATION_IS_READ + " INTEGER" + // SQLite uses 0 for false, 1 for true
+                    COLUMN_NOTIFICATION_IS_READ + " INTEGER" +
                     ")";
+
+    private static final String TABLE_CREATE_USERS =
+            "CREATE TABLE " + TABLE_USERS + " (" +
+                    COLUMN_USER_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_USER_IMAGE_URI + " TEXT" +
+                    ");";
 
 
     public DatabaseHelper(Context context) {
@@ -88,19 +89,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE_USERS);
         db.execSQL(TABLE_CREATE_MENU_ITEMS);
         db.execSQL(TABLE_CREATE_RESERVATIONS);
         db.execSQL(TABLE_CREATE_NOTIFICATIONS);
+        db.execSQL(TABLE_CREATE_USERS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MENU_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESERVATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         onCreate(db);
     }
 }

@@ -61,7 +61,6 @@ public class ReservationsFragment extends Fragment implements ReservationsAdapte
         NavHostFragment.findNavController(this).getCurrentBackStackEntry()
                 .getSavedStateHandle().getLiveData("show_history", false)
                 .observe(getViewLifecycleOwner(), showHistory -> {
-                    // If showHistory is true, it means we just cancelled a reservation.
                     if (showHistory) {
                         // Select the "History" tab.
                         tabLayout.selectTab(tabLayout.getTabAt(1));
@@ -74,7 +73,6 @@ public class ReservationsFragment extends Fragment implements ReservationsAdapte
 
 
     // --- Initialization and Setup ---
-
     private void initializeViewModelsAndManagers() {
         // Use requireActivity() to scope ViewModels to the Activity's lifecycle
         reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);

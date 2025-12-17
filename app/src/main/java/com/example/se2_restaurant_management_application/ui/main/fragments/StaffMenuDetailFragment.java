@@ -63,8 +63,6 @@ public class StaffMenuDetailFragment extends Fragment {
             double price = args.getDouble("itemPrice", 0.0);
             String description = args.getString("itemDescription", "No description available.");
             String category = args.getString("itemCategory", "Uncategorized");
-
-            // --- NEW LOGIC FOR IMAGE ---
             String imageUriString = args.getString("imageUri");
             if (imageUriString != null) {
                 // If a URI string exists, use it to load the image.
@@ -74,7 +72,6 @@ public class StaffMenuDetailFragment extends Fragment {
                 int imageId = args.getInt("itemImageId", R.drawable.ic_launcher_foreground);
                 detailFoodImageView.setImageResource(imageId);
             }
-            // --- END NEW LOGIC ---
 
             detailFoodNameTextView.setText(name);
             detailFoodPriceTextView.setText(String.format(Locale.US, "RM%.2f", price));
@@ -94,7 +91,6 @@ public class StaffMenuDetailFragment extends Fragment {
 
             if (currentItemBundle != null) {
                 // Navigate to the edit screen, passing the item's data bundle.
-                // You will create this action in the nav graph next.
                 NavHostFragment.findNavController(StaffMenuDetailFragment.this)
                         .navigate(R.id.action_staff_detail_to_edit, currentItemBundle);
             } else {

@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
                 android:textSize="20dp">
-                <!-- Chips will be added in assessment 2 -->
+                <!-- Chips will be added in programmatically -->
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>

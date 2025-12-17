@@ -7,7 +7,7 @@
     android:background="@color/app_background_light_green"
     tools:context=".ui.main.fragments.AccountFragment">
 
-    <!-- Header Section (Larger padding for tablet) -->
+    <!-- Header Section -->
     <ImageButton
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
@@ -241,7 +241,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Button is inside the right container -->
         <Button
             android:id="@+id/deleteAccountButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

@@ -27,14 +27,14 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet; // Import LinkedHashSet to preserve order
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set; // Import Set
+import java.util.Set;
 
 public class MenuFragment extends Fragment {
 
-    // ... (Your existing variable declarations are fine)
+
     private RecyclerView menuRecyclerView;
     private MenuAdapter menuAdapter;
     private MenuViewModel menuViewModel;
@@ -76,7 +76,7 @@ public class MenuFragment extends Fragment {
 
         setupRecyclerView();
         observeViewModel();
-        setupSearchListener(); // Renamed for clarity
+        setupSearchListener();
         setupLogoutButton();
     }
 
@@ -115,18 +115,15 @@ public class MenuFragment extends Fragment {
     private void observeViewModel() {
         menuViewModel.getAllMenuItems().observe(getViewLifecycleOwner(), menuItems -> {
             if (menuItems != null) {
-                // FIX 1: When menu items are loaded, update the category chips
                 updateCategoryChips(menuItems);
-                // Now filter the list
                 filterList();
             }
         });
     }
 
-    // FIX 2: NEW METHOD TO DYNAMICALLY CREATE CHIPS
     private void updateCategoryChips(List<Menu> menuItems) {
-        categoryChipGroup.clearCheck(); // Clear selection
-        categoryChipGroup.removeAllViews(); // Remove all old chips
+        categoryChipGroup.clearCheck();
+        categoryChipGroup.removeAllViews();
 
         // Use a Set to get unique category names while preserving insertion order
         Set<String> categories = new LinkedHashSet<>();

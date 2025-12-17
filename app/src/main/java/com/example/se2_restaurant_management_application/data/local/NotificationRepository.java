@@ -10,6 +10,7 @@ import android.os.Looper;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.se2_restaurant_management_application.data.local.DatabaseHelper;
 import com.example.se2_restaurant_management_application.data.models.Notification;
 
 import java.util.ArrayList;
@@ -24,13 +25,17 @@ public class NotificationRepository {
     private final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(2);
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
+    // LiveData for holding the list of notifications
     private final MutableLiveData<List<Notification>> notificationsLiveData = new MutableLiveData<>();
+    // LiveData for any errors
     private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
+    // Private constructor for Singleton pattern
     private NotificationRepository(Application application) {
         this.dbHelper = new DatabaseHelper(application);
     }
 
+    // Singleton getInstance method
     public static NotificationRepository getInstance(Application application) {
         if (instance == null) {
             synchronized (NotificationRepository.class) {
@@ -42,6 +47,7 @@ public class NotificationRepository {
         return instance;
     }
 
+    // Public getters for the LiveData
     public LiveData<List<Notification>> getNotificationsLiveData() {
         return notificationsLiveData;
     }
@@ -51,8 +57,7 @@ public class NotificationRepository {
     }
 
     /**
-     * Fetches all notifications for a given user ID from the database.
-     * @param userId The ID of the user whose notifications are to be fetched.
+     * Fetches all notifications for a given user ID from the local SQLite database.
      */
     public void fetchNotificationsForUser(int userId) {
         databaseWriteExecutor.execute(() -> {
@@ -61,10 +66,11 @@ public class NotificationRepository {
 
             String selection = DatabaseHelper.COLUMN_NOTIFICATION_USER_ID + " = ?";
             String[] selectionArgs = { String.valueOf(userId) };
-            String orderBy = DatabaseHelper.COLUMN_NOTIFICATION_ID + " DESC";
 
-            try (Cursor cursor = db.query(DatabaseHelper.TABLE_NOTIFICATIONS, null, selection, selectionArgs, null, null, orderBy)) {
-                if (cursor != null && cursor.moveToFirst()) {
+            Cursor cursor = db.query(DatabaseHelper.TABLE_NOTIFICATIONS, null, selection, selectionArgs, null, null, DatabaseHelper.COLUMN_NOTIFICATION_ID + " DESC");
+
+            try {
+                if (cursor.moveToFirst()) {
                     do {
                         int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_ID));
                         int dbUserId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTIFICATION_USER_ID));
@@ -77,15 +83,18 @@ public class NotificationRepository {
                     } while (cursor.moveToNext());
                 }
             } catch (Exception e) {
-                mainThreadHandler.post(() -> errorLiveData.setValue("Error reading notifications from database."));
+                mainThreadHandler.post(() -> errorLiveData.setValue("Error reading notifications from database"));
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
             mainThreadHandler.post(() -> notificationsLiveData.setValue(notificationList));
         });
     }
 
     /**
-     * Inserts a new notification into the database.
-     * @param notification The notification object to be inserted.
+     * Inserts a new notification into the local SQLite database.
      */
     public void createNotification(Notification notification) {
         databaseWriteExecutor.execute(() -> {
@@ -98,18 +107,12 @@ public class NotificationRepository {
             values.put(DatabaseHelper.COLUMN_NOTIFICATION_IS_READ, notification.isRead() ? 1 : 0);
 
             long id = db.insert(DatabaseHelper.TABLE_NOTIFICATIONS, null, values);
-
-            // After inserting, refresh the list for the user this notification belongs to
             if (id != -1) {
                 fetchNotificationsForUser(notification.getUserId());
             }
         });
     }
 
-    /**
-     * Updates an existing notification to be marked as read.
-     * @param notification The notification to update.
-     */
     public void markNotificationAsRead(Notification notification) {
         databaseWriteExecutor.execute(() -> {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -120,6 +123,7 @@ public class NotificationRepository {
             String[] selectionArgs = { String.valueOf(notification.getId()) };
 
             db.update(DatabaseHelper.TABLE_NOTIFICATIONS, values, selection, selectionArgs);
+
         });
     }
 }
