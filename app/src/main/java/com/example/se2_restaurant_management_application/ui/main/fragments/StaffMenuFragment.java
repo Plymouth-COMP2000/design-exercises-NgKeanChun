@@ -93,6 +93,16 @@ public class StaffMenuFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Trigger a refresh of the menu items every time the fragment is displayed.
+        // This ensures that new items (and new categories) added from another screen will appear.
+        if (menuViewModel != null) {
+            menuViewModel.loadAllMenuItems();
+        }
+    }
+
     private void setupButtonListeners() {
         logoutButton.setOnClickListener(v -> performLogout());
         addNewItemButton.setOnClickListener(v ->

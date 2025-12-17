@@ -62,6 +62,25 @@ public class NotificationHelper {
             return; // Exit the method immediately, no pop-up will be shown.
         }
 
+        if ("Staff".equalsIgnoreCase(userType)) {
+            if (title != null && (title.toLowerCase().contains("cancelled") || title.toLowerCase().contains("cancellation"))) {
+                // If the "cancelled reservations" switch is turned OFF, exit without showing the pop-up.
+                if (!settingsManager.getBoolean("staff_cancelled_reservations", false)) {
+                    return; // Exit the method before the notification is built.
+                }
+            }
+        }
+
+        if ("Guest".equalsIgnoreCase(userType)) {
+            // Infer a "booking change" from the title.
+            if (title != null && (title.toLowerCase().contains("change") || title.toLowerCase().contains("update"))) {
+                // If the "booking changes" switch is turned OFF, exit without showing the pop-up.
+                if (!settingsManager.getBoolean("guest_booking_changes", true)) {
+                    return; // Exit the method before the notification is built.
+                }
+            }
+        }
+
         // Check for Android 13+ notification permission first
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return; // Exit if permission is not granted
