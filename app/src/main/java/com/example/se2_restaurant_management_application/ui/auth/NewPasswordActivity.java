@@ -18,8 +18,6 @@ import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.User;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.Serializable;
-
 public class NewPasswordActivity extends AppCompatActivity {
 
     private NewPasswordViewModel newPasswordViewModel;

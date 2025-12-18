@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.Adapters;
+package com.example.se2_restaurant_management_application.ui.main.adapters;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;

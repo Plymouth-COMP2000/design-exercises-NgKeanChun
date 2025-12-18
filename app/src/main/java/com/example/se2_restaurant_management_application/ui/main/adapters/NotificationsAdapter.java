@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.Adapters;
+package com.example.se2_restaurant_management_application.ui.main.adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -15,7 +15,6 @@ import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.CategoryHeader;
 import com.example.se2_restaurant_management_application.data.models.DisplayableItem;
 import com.example.se2_restaurant_management_application.data.models.Notification;
-import com.example.se2_restaurant_management_application.ui.main.fragments.NotificationViewModel;
 
 import java.util.List;
 

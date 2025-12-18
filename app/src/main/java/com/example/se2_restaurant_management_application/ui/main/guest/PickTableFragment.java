@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.guest;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +20,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import com.example.se2_restaurant_management_application.data.models.User;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.ReservationViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

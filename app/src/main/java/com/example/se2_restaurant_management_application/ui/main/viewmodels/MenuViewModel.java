@@ -1,10 +1,10 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;import android.app.Application;
+package com.example.se2_restaurant_management_application.ui.main.viewmodels;import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.se2_restaurant_management_application.data.local.MenuRepository;
+import com.example.se2_restaurant_management_application.data.repository.MenuRepository;
 import com.example.se2_restaurant_management_application.data.models.Menu;
 
 import java.util.List;

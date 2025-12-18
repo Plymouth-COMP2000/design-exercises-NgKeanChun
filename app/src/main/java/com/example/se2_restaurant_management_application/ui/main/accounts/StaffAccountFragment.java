@@ -1,9 +1,8 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.accounts;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +27,7 @@ import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.User;
 import com.example.se2_restaurant_management_application.ui.auth.LoginActivity;
 import com.example.se2_restaurant_management_application.ui.auth.LoginViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
 import com.example.se2_restaurant_management_application.util.SessionManager;
 import com.example.se2_restaurant_management_application.util.SettingsManager;
 import com.google.android.material.materialswitch.MaterialSwitch;

@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.viewmodels;
 
 import android.app.Application;
 import android.util.Log;
@@ -8,7 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.se2_restaurant_management_application.data.local.ReservationRepository;
+import com.example.se2_restaurant_management_application.data.repository.ReservationRepository;
 import com.example.se2_restaurant_management_application.data.models.Notification;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import com.example.se2_restaurant_management_application.util.NotificationHelper;
@@ -16,7 +16,6 @@ import com.example.se2_restaurant_management_application.util.SettingsManager;
 import com.example.se2_restaurant_management_application.data.models.User;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ReservationViewModel extends AndroidViewModel {
 

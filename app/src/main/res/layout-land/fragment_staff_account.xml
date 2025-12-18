@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background_light_green"
-    tools:context=".ui.main.fragments.StaffAccountFragment">
+    tools:context=".ui.main.accounts.StaffAccountFragment">
 
     <!-- Header Section (No changes) -->
     <ImageButton

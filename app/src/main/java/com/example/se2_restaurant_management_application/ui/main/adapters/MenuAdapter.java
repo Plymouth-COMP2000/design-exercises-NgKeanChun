@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.Adapters;
+package com.example.se2_restaurant_management_application.ui.main.adapters;
 
 import android.net.Uri;
 import android.view.LayoutInflater;

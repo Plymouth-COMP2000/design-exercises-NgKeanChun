@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.staff;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -13,7 +13,7 @@
     <!-- Destination for the "Menu" tab -->
     <fragment
         android:id="@+id/navigation_menu"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestMenuFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.GuestMenuFragment"
         android:label="Menu"
         tools:layout="@layout/fragment_guest_menu">
         <action
@@ -26,14 +26,14 @@
 
     <fragment
         android:id="@+id/navigation_menu_detail"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestMenuDetailFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.GuestMenuDetailFragment"
         android:label="Menu Details"
         tools:layout="@layout/fragment_guest_menu_detail" />
 
     <!-- Destination for the "Reservations" tab -->
     <fragment
         android:id="@+id/navigation_reservations"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestReservationsFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.GuestReservationsFragment"
         android:label="Reservations"
         tools:layout="@layout/fragment_guest_reservation">
         <action
@@ -50,7 +50,7 @@
     <!-- Destination for the "Pick Table" screen -->
     <fragment
         android:id="@+id/pickTableFragment"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.PickTableFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.PickTableFragment"
         android:label="Choose Table"
         tools:layout="@layout/fragment_pick_table">
         <action
@@ -61,7 +61,7 @@
     <!-- Destination for the booking details screen -->
     <fragment
         android:id="@+id/bookingDetailsFragment"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.BookingDetailsFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.BookingDetailsFragment"
         android:label="Booking Details"
         tools:layout="@layout/fragment_guest_booking_detail">
         <action
@@ -72,7 +72,7 @@
     <!-- Destination for the Reservation status screen -->
     <fragment
         android:id="@+id/reservationStatusFragment"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestReservationStatusFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.GuestReservationStatusFragment"
         android:label="Reservation Status"
         tools:layout="@layout/fragment_guest_reservation_status">
         <action
@@ -86,7 +86,7 @@
     <!-- Destination for the "Account" tab -->
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestAccountFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.accounts.GuestAccountFragment"
         android:label="Account"
         tools:layout="@layout/fragment_guest_account">
         <action
@@ -97,7 +97,7 @@
     <!-- "Notification" Destination -->
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.GuestNotificationFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.GuestNotificationFragment"
         android:label="Notifications"
         tools:layout="@layout/fragment_notification" >
         <action

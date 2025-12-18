@@ -6,7 +6,7 @@
     android:background="@color/app_background_light_green"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.fragments.StaffMenuDetailFragment">
+    tools:context=".ui.main.staff.StaffMenuDetailFragment">
 
     <!-- Bottom Buttons -->
     <LinearLayout

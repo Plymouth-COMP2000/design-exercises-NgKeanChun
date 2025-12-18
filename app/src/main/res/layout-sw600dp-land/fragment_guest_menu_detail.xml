@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_background_light_green"
     android:padding="24dp"
-    tools:context=".ui.main.fragments.GuestMenuDetailFragment">
+    tools:context=".ui.main.guest.GuestMenuDetailFragment">
 
     <!-- Guideline for vertical split -->
     <androidx.constraintlayout.widget.Guideline

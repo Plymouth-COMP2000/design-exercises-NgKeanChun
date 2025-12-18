@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.data;
+package com.example.se2_restaurant_management_application.data.repository;
 
 
 import android.app.Application;

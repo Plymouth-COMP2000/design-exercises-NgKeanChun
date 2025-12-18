@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.guest;
 
 import android.graphics.Typeface;
 import android.util.Log;
@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.ReservationViewModel;
 
 public class GuestReservationStatusFragment extends Fragment {
 

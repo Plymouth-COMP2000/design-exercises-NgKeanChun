@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.staff;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -23,24 +23,26 @@ import com.example.se2_restaurant_management_application.data.models.Displayable
 import com.example.se2_restaurant_management_application.data.models.Notification;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import com.example.se2_restaurant_management_application.data.models.User;
-import com.example.se2_restaurant_management_application.ui.main.Adapters.NotificationsAdapter;
-import com.example.se2_restaurant_management_application.util.SessionManager;
+import com.example.se2_restaurant_management_application.ui.main.adapters.NotificationsAdapter;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.NotificationViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.ReservationViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuestNotificationFragment extends Fragment implements NotificationsAdapter.OnNotificationClickListener {
+public class StaffNotificationsFragment extends Fragment implements NotificationsAdapter.OnNotificationClickListener {
 
     private NotificationViewModel notificationViewModel;
     private ReservationViewModel reservationViewModel;
     private AccountViewModel accountViewModel;
-    private SessionManager sessionManager;
 
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter adapter;
     private TextView emptyStateTextView;
     private List<Reservation> allReservations = new ArrayList<>();
-    private String currentUserId = null;
+    private List<User> allUsers = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,27 +58,24 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         setupRecyclerView();
         observeData();
 
-        User currentUser = accountViewModel.getLoggedInUser().getValue();
-        if (currentUser != null) {
-            currentUserId = currentUser.getId();
-            notificationViewModel.fetchNotifications(currentUserId);
-        } else {
-            Toast.makeText(getContext(), "User session expired. Please log in again.", Toast.LENGTH_LONG).show();
-        }
+        notificationViewModel.fetchNotifications("staff");
     }
 
     private void initializeViewModels() {
         notificationViewModel = new ViewModelProvider(requireActivity()).get(NotificationViewModel.class);
         reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);
         accountViewModel = new ViewModelProvider(requireActivity()).get(AccountViewModel.class);
-        sessionManager = new SessionManager(requireContext());
     }
 
     private void initializeViews(View view) {
         notificationsRecyclerView = view.findViewById(R.id.notificationsRecyclerView);
         emptyStateTextView = view.findViewById(R.id.emptyStateTextView);
         ImageButton backButton = view.findViewById(R.id.BackButton);
-        backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
+        backButton.setOnClickListener(v -> {
+            if (isAdded()) {
+                NavHostFragment.findNavController(this).popBackStack();
+            }
+        });
     }
 
     private void setupRecyclerView() {
@@ -92,6 +91,12 @@ public class GuestNotificationFragment extends Fragment implements Notifications
             }
         });
 
+        accountViewModel.getAllUsers().observe(getViewLifecycleOwner(), users -> {
+            if (users != null) {
+                this.allUsers = users;
+            }
+        });
+
         notificationViewModel.getNotifications().observe(getViewLifecycleOwner(), notifications -> {
             if (notifications == null || notifications.isEmpty()) {
                 emptyStateTextView.setVisibility(View.VISIBLE);
@@ -100,6 +105,13 @@ public class GuestNotificationFragment extends Fragment implements Notifications
                 emptyStateTextView.setVisibility(View.GONE);
                 notificationsRecyclerView.setVisibility(View.VISIBLE);
                 updateAdapterWithHeaders(notifications);
+            }
+        });
+
+        notificationViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                notificationViewModel.clearError();
             }
         });
     }
@@ -135,7 +147,7 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         if (!notification.isRead()) {
             notification.markAsRead();
             notificationViewModel.markNotificationAsRead(notification);
-            notificationViewModel.fetchNotifications(currentUserId);
+            notificationViewModel.fetchNotifications("staff");
         }
 
         Reservation targetReservation = findReservationForNotification(notification);
@@ -154,14 +166,16 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         }
 
         for (Reservation res : allReservations) {
-            if (currentUserId.equals(res.getUserId()) && body.contains(res.getDateTime())) {
+            if (body.contains(res.getDateTime())) {
                 return res;
             }
         }
 
-        Log.e("NavDebug", "No reservation found for GUEST notification body: " + body);
+        // If no reservation's date/time string was found in the body, return null.
+        Log.e("NavDebug", "No reservation found for notification body: " + body);
         return null;
     }
+
 
     private void navigateToReservationStatus(Reservation reservation) {
         Bundle args = new Bundle();
@@ -173,18 +187,31 @@ public class GuestNotificationFragment extends Fragment implements Notifications
         args.putInt("reservationTable", reservation.getTableNumber());
         args.putString("reservationUserId", reservation.getUserId());
 
-        User currentUser = accountViewModel.getLoggedInUser().getValue();
-        if (currentUser != null) {
-            args.putString("guestName", currentUser.getFullName());
-            args.putString("guestPhone", currentUser.getContact());
+        User guestUser = findUserById(reservation.getUserId());
+        if (guestUser != null) {
+            args.putString("guestName", guestUser.getFullName());
+            args.putString("guestPhone", guestUser.getContact());
+        } else {
+            args.putString("guestName", "Unknown Guest");
+            args.putString("guestPhone", "N/A");
         }
 
         try {
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_guest_notifications_to_reservation_status, args);
+                    .navigate(R.id.action_staff_notifications_to_staff_reservation_status, args);
         } catch (IllegalArgumentException e) {
-            Log.e("NavError", "Guest Navigation failed. Action not found on current destination.", e);
+            Log.e("NavError", "Navigation failed. Action not found on current destination.", e);
             Toast.makeText(getContext(), "Navigation Error: Action not found.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private User findUserById(String userId) {
+        if (userId == null) return null;
+        for (User user : allUsers) {
+            if (userId.equals(user.getId())) {
+                return user;
+            }
+        }
+        return null;
     }
 }

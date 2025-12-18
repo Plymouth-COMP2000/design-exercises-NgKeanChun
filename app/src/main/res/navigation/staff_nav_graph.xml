@@ -9,7 +9,7 @@
     <!-- Menu Fragments -->
     <fragment
         android:id="@+id/navigation_menu"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffMenuFragment"
         android:label="Staff Menu"
         tools:layout="@layout/fragment_staff_menu">
         <action
@@ -26,7 +26,7 @@
     <!-- Reservations Fragment -->
     <fragment
         android:id="@+id/navigation_reservations"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffReservationsFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffReservationsFragment"
         android:label="Reservations"
         tools:layout="@layout/fragment_staff_reservation">
         <action
@@ -40,7 +40,7 @@
     <!-- Account Fragment -->
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffAccountFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.accounts.StaffAccountFragment"
         android:label="Account"
         tools:layout="@layout/fragment_staff_account">
         <action
@@ -51,7 +51,7 @@
     <!-- Notification Fragment -->
     <fragment
         android:id="@+id/navigation_staff_notifications"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffNotificationsFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffNotificationsFragment"
         android:label="Notifications"
         tools:layout="@layout/fragment_notification">
 
@@ -63,7 +63,7 @@
     <!-- staff menu fragment -->
     <fragment
         android:id="@+id/navigation_staff_menu_detail"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuDetailFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffMenuDetailFragment"
         android:label="Staff Menu Detail"
         tools:layout="@layout/fragment_staff_menu_detail" >
         <action
@@ -74,7 +74,7 @@
     <!-- staff menu edit fragment -->
     <fragment
         android:id="@+id/navigation_staff_menu_edit"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffMenuEditFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffMenuEditFragment"
         android:label="Edit Menu Item"
         tools:layout="@layout/fragment_staff_menu_edit" >
         <action
@@ -87,7 +87,7 @@
     <!-- Reservation Status Fragment -->
     <fragment
         android:id="@+id/navigation_staff_reservation_status"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.StaffReservationStatusFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.staff.StaffReservationStatusFragment"
         android:label="Reservation Details"
         tools:layout="@layout/fragment_staff_reservation_status">
         <action
@@ -98,7 +98,7 @@
     <!-- Pick Table Fragment -->
     <fragment
         android:id="@+id/navigation_pick_table"
-        android:name="com.example.se2_restaurant_management_application.ui.main.fragments.PickTableFragment"
+        android:name="com.example.se2_restaurant_management_application.ui.main.guest.PickTableFragment"
         android:label="Choose Table"
         tools:layout="@layout/fragment_pick_table" />
 

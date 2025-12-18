@@ -1,9 +1,11 @@
-package com.example.se2_restaurant_management_application.data.local;
+package com.example.se2_restaurant_management_application.data.repository;
 
 import android.app.Application;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.se2_restaurant_management_application.data.local.DatabaseHelper;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import java.util.ArrayList;
 import java.util.List;

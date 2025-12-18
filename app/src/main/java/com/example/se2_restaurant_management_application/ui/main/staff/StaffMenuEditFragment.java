@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.staff;
 
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -25,6 +25,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Menu;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.MenuViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 

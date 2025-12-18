@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.User;
-import com.example.se2_restaurant_management_application.ui.main.fragments.AccountViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.guest;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.User;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -118,7 +119,6 @@ public class BookingDetailsFragment extends Fragment {
     // --- Listeners Setup ---
 
     private void setupListeners() {
-        // --- FIX 3: UPDATED LISTENER LOGIC ---
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             Calendar today = Calendar.getInstance(TimeZone.getDefault());
             Calendar selected = Calendar.getInstance(TimeZone.getDefault());

@@ -1,4 +1,4 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.staff;
 
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
@@ -24,7 +24,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.se2_restaurant_management_application.R;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
-import com.example.se2_restaurant_management_application.data.models.User;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.AccountViewModel;
+import com.example.se2_restaurant_management_application.ui.main.viewmodels.ReservationViewModel;
 
 
 public class StaffReservationStatusFragment extends Fragment {

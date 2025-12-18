@@ -1,13 +1,12 @@
-package com.example.se2_restaurant_management_application.ui.main.fragments;
+package com.example.se2_restaurant_management_application.ui.main.viewmodels;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.se2_restaurant_management_application.data.UserRepository;
+import com.example.se2_restaurant_management_application.data.repository.UserRepository;
 import com.example.se2_restaurant_management_application.data.models.Reservation;
 import com.example.se2_restaurant_management_application.data.models.User;
 import com.example.se2_restaurant_management_application.util.SessionManager;
