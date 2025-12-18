@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -45,29 +46,23 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-            NavigationView navigationView = findViewById(R.id.navigation_view); // Side navigation for landscape
-            String userRole = getIntent().getStringExtra("usertype");
+            NavigationView navigationView = findViewById(R.id.navigation_view);
 
-            if ("Staff".equalsIgnoreCase(userRole)) {
-                navController.setGraph(R.navigation.staff_nav_graph);
-                if (bottomNav != null) { // Portrait
-                    bottomNav.getMenu().clear();
-                    bottomNav.inflateMenu(R.menu.staff_bottom_nav_menu);
-                }
-                if (navigationView != null) { // Landscape
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.staff_bottom_nav_menu);
-                }
-            } else { // Guest
-                navController.setGraph(R.navigation.guest_nav_graph);
-                if (bottomNav != null) { // Portrait
-                    bottomNav.getMenu().clear();
-                    bottomNav.inflateMenu(R.menu.guest_bottom_nav_menu);
-                }
-                if (navigationView != null) { // Landscape
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.guest_bottom_nav_menu);
-                }
+            String userRole = getIntent().getStringExtra("usertype");
+            boolean isStaff = "Staff".equalsIgnoreCase(userRole);
+            int graphResId = isStaff ? R.navigation.staff_nav_graph : R.navigation.guest_nav_graph;
+            navController.setGraph(graphResId);
+
+            int menuResId = isStaff ? R.menu.staff_bottom_nav_menu : R.menu.guest_bottom_nav_menu;
+            if (bottomNav != null) {
+                bottomNav.getMenu().clear();
+                bottomNav.inflateMenu(menuResId);
+                NavigationUI.setupWithNavController(bottomNav, navController);
+            }
+            if (navigationView != null) {
+                navigationView.getMenu().clear();
+                navigationView.inflateMenu(menuResId);
+                NavigationUI.setupWithNavController(navigationView, navController);
             }
 
             Set<Integer> topLevelDestinations = new HashSet<>();
@@ -75,29 +70,11 @@ public class MainActivity extends AppCompatActivity {
             topLevelDestinations.add(R.id.navigation_reservations);
             topLevelDestinations.add(R.id.navigation_account);
 
-            if (bottomNav != null) { // Handle visibility for Portrait layout
-                NavigationUI.setupWithNavController(bottomNav, navController);
-
-                navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                    if (topLevelDestinations.contains(destination.getId())) {
-                        bottomNav.setVisibility(View.VISIBLE);
-                    } else {
-                        bottomNav.setVisibility(View.GONE);
-                    }
-                });
-
-            } else if (navigationView != null) { // Handle visibility for Landscape layout
-                NavigationUI.setupWithNavController(navigationView, navController);
-
-                // listener to show/hide the side navigation view.
-                navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                    if (topLevelDestinations.contains(destination.getId())) {
-                        navigationView.setVisibility(View.VISIBLE);
-                    } else {
-                        navigationView.setVisibility(View.GONE);
-                    }
-                });
-            }
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                int visibility = topLevelDestinations.contains(destination.getId()) ? View.VISIBLE : View.GONE;
+                if (bottomNav != null) bottomNav.setVisibility(visibility);
+                if (navigationView != null) navigationView.setVisibility(visibility);
+            });
         }
 
         View mainView = findViewById(R.id.main);
